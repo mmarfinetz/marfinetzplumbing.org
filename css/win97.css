@@ -947,6 +947,208 @@ body::after {
   text-align: center;
 }
 
+/* Contact Form Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  animation: fadeIn 0.2s ease-in;
+}
+
+/* Backdrop for static Windows 97 version */
+#contact-window-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.contact-modal {
+  position: relative !important;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  margin: 0;
+  z-index: 9999;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.contact-modal .window-content {
+  max-height: calc(85vh - 30px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--win97-gray);
+}
+
+.contact-modal .form-group {
+  margin-bottom: 12px;
+}
+
+.contact-modal .form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: normal;
+  font-size: 11px;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+}
+
+.contact-modal input[type="text"],
+.contact-modal input[type="tel"],
+.contact-modal input[type="email"],
+.contact-modal select,
+.contact-modal textarea {
+  width: 100%;
+  padding: 2px 4px;
+  border: 2px solid;
+  border-color: var(--win97-dark) var(--win97-light) var(--win97-light) var(--win97-dark);
+  background: white;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+.contact-modal textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.contact-modal .win95-button {
+  background-color: var(--win97-gray);
+  border: 2px solid;
+  border-color: var(--win97-light) var(--win97-dark) var(--win97-dark) var(--win97-light);
+  padding: 4px 16px;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  min-width: 75px;
+  text-align: center;
+}
+
+.contact-modal .win95-button:active {
+  border-color: var(--win97-dark) var(--win97-light) var(--win97-light) var(--win97-dark);
+  padding: 5px 15px 3px 17px;
+}
+
+.contact-modal .win95-button.primary {
+  font-weight: bold;
+}
+
+.contact-modal .form-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  justify-content: flex-start;
+}
+
+.contact-modal .emergency-banner {
+  background: #ff4444;
+  color: white;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid;
+  border-color: var(--win97-light) var(--win97-dark) var(--win97-dark) var(--win97-light);
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  animation: pulse 2s infinite;
+}
+
+.contact-modal .emergency-banner a {
+  color: #ffff00;
+  text-decoration: none;
+}
+
+.contact-modal .emergency-banner a:hover {
+  text-decoration: underline;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.contact-modal .form-message {
+  background: white;
+  border: 2px solid;
+  border-color: var(--win97-dark) var(--win97-light) var(--win97-light) var(--win97-dark);
+  padding: 8px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+}
+
+.contact-modal .form-message.error {
+  color: #cc0000;
+  background-color: #ffe6e6;
+}
+
+.contact-modal .form-message.success {
+  color: #008000;
+  background-color: #e6ffe6;
+}
+
+/* Mobile Responsive Styles for Contact Modal */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 10px;
+  }
+  
+  .contact-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 90vh;
+  }
+  
+  .contact-modal .window-content {
+    max-height: calc(90vh - 30px);
+    padding: 15px;
+  }
+  
+  .contact-modal .emergency-banner {
+    font-size: 11px;
+    padding: 10px;
+  }
+  
+  .contact-modal .form-buttons {
+    flex-direction: column;
+  }
+  
+  .contact-modal .win95-button {
+    width: 100%;
+  }
+}
+
 .view-all-button:hover {
   text-decoration: underline;
 }

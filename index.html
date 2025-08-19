@@ -71,7 +71,7 @@
         <img src="img/wxp_244.png" alt="Reviews" width="24" height="24">
         <span>Customer Reviews</span>
       </a>
-      <a href="/contact" class="mobile-menu-item">
+      <a href="#" class="mobile-menu-item" data-window="contact-window">
         <img src="img/phone.png" alt="Contact" width="24" height="24">
         <span>Contact Us</span>
       </a>
@@ -87,7 +87,7 @@
       <img src="img/services.png" alt="Services" loading="lazy" srcset="img/services.png 48w" sizes="(max-width: 768px) 24px, 48px">
       <span>Services</span>
     </a>
-    <a href="/contact" class="desktop-icon" id="contact">
+    <a href="#" class="desktop-icon" id="contact">
       <img src="img/phone.png" alt="Contact Us" loading="lazy" srcset="img/phone.png 48w" sizes="(max-width: 768px) 24px, 48px">
       <span>Contact Us</span>
     </a>
@@ -395,8 +395,11 @@
     </div>
   </div>
   
+  <!-- Contact Window Backdrop -->
+  <div id="contact-window-backdrop"></div>
+  
   <!-- Contact Window Template -->
-  <div class="window" id="contact-window" data-window="contact" style="display: none; left: 250px; top: 100px; width: 500px; min-height: 600px;">
+  <div class="window contact-window-static" id="contact-window" data-window="contact" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 600px; min-height: 600px; z-index: 9999;">
     <div class="title-bar">
       <div class="title-bar-text">Contact Us - Request Service</div>
       <div class="title-bar-controls">
@@ -405,25 +408,32 @@
         <button class="title-bar-button close-button">×</button>
       </div>
     </div>
-    <div class="window-content" style="padding: 20px;">
+    <div class="window-content" style="padding: 20px; max-height: calc(85vh - 30px); overflow-y: auto;">
       <form id="lead-capture-form" class="win95-form">
-        <h3 style="margin-top: 0;">Get Your Plumbing Problem Fixed Today!</h3>
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 18px;">Get Your Plumbing Problem Fixed Today!</h3>
         
-        <div class="form-message" id="form-message" style="display: none; align-items: center; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc;"></div>
+        <!-- Emergency Banner -->
+        <div class="emergency-banner" style="background: #ff4444; color: white; padding: 12px; margin-bottom: 15px; border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; text-align: center; font-weight: bold;">
+          🚨 <strong>Emergency? Call NOW:</strong> <a href="tel:814-273-6315" style="color: #ffff00; font-size: 16px; text-decoration: none;">(814) 273-6315</a> 🚨
+          <br>
+          <small style="font-size: 11px;">Available 24/7 in Erie County, Lake City, and Conneaut</small>
+        </div>
+        
+        <div class="form-message" id="form-message" style="display: none; background: white; border: 2px solid; border-color: #808080 #ffffff #ffffff #808080; padding: 8px; margin-bottom: 12px; font-size: 11px;"></div>
         
         <div class="form-group">
           <label for="name">Full Name *</label>
-          <input type="text" id="name" name="name" required class="win95-input" autocomplete="name">
+          <input type="text" id="name" name="name" required class="win95-input" autocomplete="name" placeholder="Enter your full name">
         </div>
         
         <div class="form-group">
           <label for="phone">Phone Number *</label>
-          <input type="tel" id="phone" name="phone" required class="win95-input" autocomplete="tel">
+          <input type="tel" id="phone" name="phone" required class="win95-input" autocomplete="tel" placeholder="(814) 555-1234" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10}|\([0-9]{3}\) [0-9]{3}-[0-9]{4}">
         </div>
         
         <div class="form-group">
           <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" required class="win95-input" autocomplete="email">
+          <input type="email" id="email" name="email" required class="win95-input" autocomplete="email" placeholder="your.email@example.com">
         </div>
         
         <div class="form-group">
@@ -432,6 +442,7 @@
             <option value="">Select Property Type</option>
             <option value="residential">Residential</option>
             <option value="commercial">Commercial</option>
+            <option value="industrial">Industrial</option>
           </select>
         </div>
         
@@ -453,7 +464,7 @@
         
         <div class="form-group">
           <label for="problem">Describe your plumbing problem *</label>
-          <textarea id="problem" name="problem" required class="win95-textarea" rows="4" placeholder="Please describe the issue you're experiencing..."></textarea>
+          <textarea id="problem" name="problem" required class="win95-textarea" rows="4" placeholder="Please describe the issue you're experiencing in detail..." minlength="10" maxlength="1000"></textarea>
         </div>
         
         <div class="form-group">
@@ -466,12 +477,13 @@
         </div>
         
         <div class="form-buttons">
-          <button type="submit" class="win95-button primary" id="lead-submit-button">Submit Request</button>
+          <button type="submit" class="win95-button primary" id="lead-submit-button" style="font-weight: bold;">Submit Request</button>
           <button type="button" class="win95-button" onclick="document.getElementById('lead-capture-form').reset()">Clear Form</button>
         </div>
         
-        <p style="text-align: center; margin-top: 20px; color: #666;">
-          Or call us directly at <a href="tel:814-273-6315" style="color: #0000FF;">814-273-6315</a>
+        <p style="text-align: center; margin-top: 20px; color: #333; font-size: 12px;">
+          <strong>Service Areas:</strong> Erie County, Lake City, and Conneaut<br>
+          Or call us directly at <a href="tel:814-273-6315" style="color: #0000FF; font-weight: bold;">(814) 273-6315</a>
         </p>
       </form>
     </div>

@@ -160,6 +160,24 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTime();
     setInterval(updateTime, 60000); // Update time every minute
     
+    // Add click handler for contact window backdrop
+    const contactBackdrop = document.getElementById('contact-window-backdrop');
+    if (contactBackdrop) {
+      contactBackdrop.addEventListener('click', function() {
+        const contactWindow = document.getElementById('contact-window');
+        if (contactWindow) {
+          contactWindow.style.display = 'none';
+          contactBackdrop.style.display = 'none';
+          
+          // Remove from taskbar
+          const taskbarEntry = document.querySelector('.taskbar-program[data-window-id="contact-window"]');
+          if (taskbarEntry) {
+            taskbarEntry.remove();
+          }
+        }
+      });
+    }
+    
     // Hide all windows initially except emergency
     windows.forEach(window => {
       if (window.id !== 'emergency-window') {
@@ -234,8 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (targetId === 'services') {
       openWindow('services-window');
     } else if (targetId === 'contact') {
-      window.location.href = '/contact';
-      return;
+      openWindow('contact-window');
     } else if (targetId === 'testimonials') {
       openWindow('testimonials-window');
     } else if (targetId === 'emergency') {
@@ -246,6 +263,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function openWindow(windowId) {
     const window = document.getElementById(windowId);
     if (!window) return;
+    
+    // Show backdrop for contact window
+    if (windowId === 'contact-window') {
+      const backdrop = document.getElementById('contact-window-backdrop');
+      if (backdrop) {
+        backdrop.style.display = 'block';
+      }
+    }
     
     window.style.display = 'block';
     
@@ -447,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // CTA Button Click Handler
   if (ctaButton) {
     ctaButton.addEventListener('click', function() {
-      window.location.href = '/contact';
+      openWindow('contact-window');
     });
   }
   
@@ -482,7 +507,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const startContact = document.getElementById('start-contact');
   if (startContact) {
     startContact.addEventListener('click', () => {
-      window.location.href = '/contact';
+      openWindow('contact-window');
+      startMenu.style.display = 'none';
+      isStartMenuOpen = false;
     });
   }
   
@@ -668,6 +695,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (window) {
         window.style.display = 'none';
         
+        // Hide backdrop for contact window
+        if (window.id === 'contact-window') {
+          const backdrop = document.getElementById('contact-window-backdrop');
+          if (backdrop) {
+            backdrop.style.display = 'none';
+          }
+        }
+        
         // Remove from taskbar
         const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
         if (taskbarEntry) {
@@ -676,6 +711,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (activeWindow === window) {
           activeWindow = null;
+        }
+      }
+    }
+    
+    // Handle minimize button
+    if (event.target.classList.contains('minimize-button')) {
+      const window = event.target.closest('.window');
+      if (window) {
+        window.style.display = 'none';
+        
+        // Hide backdrop for contact window
+        if (window.id === 'contact-window') {
+          const backdrop = document.getElementById('contact-window-backdrop');
+          if (backdrop) {
+            backdrop.style.display = 'none';
+          }
+        }
+        
+        // Keep in taskbar but mark as minimized
+        const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
+        if (taskbarEntry) {
+          taskbarEntry.classList.add('minimized');
         }
       }
     }
