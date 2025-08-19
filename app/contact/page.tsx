@@ -24,10 +24,11 @@ export default function ContactPage() {
       <div className="contact-page-container">
         <style jsx global>{`
           .contact-page-container {
-            min-height: auto;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             position: relative;
             z-index: 10;
           }
@@ -41,6 +42,11 @@ export default function ContactPage() {
                         2px 2px 2px 0 rgba(0,0,0,0.1);
             position: relative;
             z-index: 20;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow: hidden;
+            margin: 0 auto;
           }
 
           .win95-title-bar {
@@ -70,6 +76,9 @@ export default function ContactPage() {
           .win95-content {
             padding: 20px;
             background: #c0c0c0;
+            max-height: calc(85vh - 30px);
+            overflow-y: auto;
+            overflow-x: hidden;
           }
 
           .win95-form {
@@ -184,18 +193,20 @@ export default function ContactPage() {
 
           @media (max-width: 768px) {
             .contact-page-container {
-              padding: 20px 10px;
-              margin-top: 20px;
+              padding: 10px;
+              min-height: 100vh;
+            }
+
+            .win95-window {
+              width: 100%;
+              max-width: 100%;
+              max-height: 90vh;
             }
 
             .win95-content {
               padding: 15px;
-              overflow-y: visible;
-            }
-
-            .win95-window {
-              max-height: none;
-              overflow: visible;
+              max-height: calc(90vh - 30px);
+              overflow-y: auto;
             }
           }
         `}</style>
