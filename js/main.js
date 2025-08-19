@@ -1,4 +1,4 @@
-// Main JavaScript for MMW Contracting site
+// Main JavaScript for Marfinetz Plumbing site
 document.addEventListener('DOMContentLoaded', function() {
   // DOM Elements
   const desktopIcons = document.querySelectorAll('.desktop-icon');
@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (targetId === 'services') {
       openWindow('services-window');
     } else if (targetId === 'contact') {
-      openWindow('contact-window');
+      window.location.href = '/contact';
+      return;
     } else if (targetId === 'testimonials') {
       openWindow('testimonials-window');
     } else if (targetId === 'emergency') {

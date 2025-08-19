@@ -190,7 +190,7 @@ export default function Home() {
             {/* Testimonial 3 */}
             <div className="testimonial-card">
               <div className="testimonial-rating">★★★★★</div>
-              <p className="testimonial-text">&ldquo;Even though I&apos;m in Ohio, MMW Contracting came out quickly when I had a sewer backup. Their camera inspection found tree roots, and they cleared them completely.&rdquo;</p>
+              <p className="testimonial-text">&ldquo;Even though I&apos;m in Ohio, Marfinetz Plumbing came out quickly when I had a sewer backup. Their camera inspection found tree roots, and they cleared them completely.&rdquo;</p>
               <div className="testimonial-author">
                 <p className="author-name">Robert T.</p>
                 <p className="author-location">Conneaut, OH</p>
