@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  
   // Submit with retry logic
   async function submitWithRetry(trackingData, attempt = 1) {
     log('INFO', `Submitting lead data (attempt ${attempt}/${MAX_RETRY_ATTEMPTS})`, {
@@ -268,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           };
           
-          // Submit with retry logic
+          // Submit to lead tracking API (which handles email notifications)
           const result = await submitWithRetry(trackingData);
           
           // Determine response time based on urgency
@@ -280,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
             message.className = 'form-message success';
             message.innerHTML = `
               <img src="img/w98_info.png" alt="Success" style="width: 16px; height: 16px; margin-right: 5px;">
-              <span>Thank you! We'll contact you within ${responseTime}.</span>
+              <span>Thank you! We'll contact you within ${responseTime}. Your request has been processed and our team has been notified.</span>
             `;
             message.style.display = 'flex';
           }

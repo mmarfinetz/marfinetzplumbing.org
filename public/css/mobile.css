@@ -148,8 +148,27 @@
   }
   
   body {
-    padding: 60px 10px 10px 10px; /* Add top padding for mobile nav */
+    padding: 60px 10px 60px 10px; /* Add top padding for mobile nav and bottom for CTA */
     background-size: 200% 200%;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%) !important;
+  }
+  
+  /* Ensure contact forms are visible */
+  .contact-page-container {
+    position: relative;
+    z-index: 10;
+    background: transparent;
+  }
+  
+  .win95-window {
+    position: relative !important;
+    z-index: 20 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
   }
   
   body::before {

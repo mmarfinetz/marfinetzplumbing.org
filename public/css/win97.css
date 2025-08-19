@@ -28,8 +28,9 @@ body {
   margin: 0;
   padding: 20px;
   font-size: 14px;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   font-family: "MS Sans Serif", "Segoe UI", Tahoma, sans-serif;
   background: linear-gradient(135deg, 
@@ -55,13 +56,13 @@ body::before {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 600px 600px;
-  opacity: 0.35;
+  opacity: 0.15;
   z-index: -1;
   filter: contrast(110%) brightness(105%);
-  mix-blend-mode: overlay;
+  mix-blend-mode: soft-light;
 }
 
-/* Pattern overlay */
+/* Pattern overlay - reduced opacity for better visibility */
 body::after {
   content: '';
   position: fixed;
@@ -70,7 +71,7 @@ body::after {
   right: 0;
   bottom: 0;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC');
-  opacity: 0.02;
+  opacity: 0.01;
   z-index: -1;
   pointer-events: none;
   mix-blend-mode: multiply;
@@ -446,10 +447,11 @@ body::after {
   body {
     padding: 10px;
     overflow-y: auto;
+    overflow-x: hidden;
     height: auto;
     background: linear-gradient(135deg, 
-      var(--logo-dark) 0%,
-      var(--logo-gray) 100%
+      #f5f5f5 0%,
+      #e0e0e0 100%
     );
     background-size: cover;
     min-height: 100vh;

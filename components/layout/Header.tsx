@@ -18,8 +18,6 @@ export default function Header() {
             <div className="logo">
               <Link href="/">
                 <img src="/logo.svg" alt="Marfinetz Plumbing Logo" />
-                
-
               </Link>
             </div>
             <ul className="nav-links">
@@ -27,12 +25,12 @@ export default function Header() {
               <li className="dropdown">
                 <Link href="/services">Services</Link>
                 <ul className="dropdown-menu">
-                  <li><Link href="/services/sewer-camera-inspection">Sewer Camera Inspection</Link></li>
-                  <li><Link href="/services/drain-cleaning">Drain Cleaning & Snaking</Link></li>
-                  <li><Link href="/services/sewer-line-repair">Sewer Line Repair</Link></li>
-                  <li><Link href="/services/emergency-plumbing">Emergency Services</Link></li>
-                  <li><Link href="/services/residential-plumbing">Residential Plumbing</Link></li>
-                  <li><Link href="/services/commercial-plumbing">Commercial Plumbing</Link></li>
+                  <li><Link href="/services/water-heater-repair">Water Heater Repair</Link></li>
+                  <li><Link href="/services/drain-cleaning">Drain Cleaning</Link></li>
+                  <li><Link href="/services/leak-repair">Leak Repair</Link></li>
+                  <li><Link href="/services/bathroom-repair">Bathroom Repair</Link></li>
+                  <li><Link href="/services/kitchen-plumbing">Kitchen Plumbing</Link></li>
+                  <li><Link href="/services/commercial-services">Commercial Services</Link></li>
                 </ul>
               </li>
               <li className="dropdown">

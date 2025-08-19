@@ -24,10 +24,12 @@ export default function ContactPage() {
       <div className="contact-page-container">
         <style jsx global>{`
           .contact-page-container {
-            min-height: calc(100vh - 200px);
+            min-height: auto;
             max-width: 600px;
             margin: 0 auto;
             padding: 40px 20px;
+            position: relative;
+            z-index: 10;
           }
 
           .win95-window {
@@ -37,6 +39,8 @@ export default function ContactPage() {
             box-shadow: inset 1px 1px 0 0 #ffffff, 
                         1px 1px 0 0 #000000,
                         2px 2px 2px 0 rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 20;
           }
 
           .win95-title-bar {
@@ -150,13 +154,48 @@ export default function ContactPage() {
             color: #008000;
           }
 
+          .emergency-highlight {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            text-align: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+          }
+
+          .emergency-highlight a {
+            color: #ffff00;
+            text-decoration: none;
+            font-size: 16px;
+          }
+
+          .emergency-highlight a:hover {
+            text-decoration: underline;
+          }
+
+          @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+          }
+
           @media (max-width: 768px) {
             .contact-page-container {
               padding: 20px 10px;
+              margin-top: 20px;
             }
 
             .win95-content {
               padding: 15px;
+              overflow-y: visible;
+            }
+
+            .win95-window {
+              max-height: none;
+              overflow: visible;
             }
           }
         `}</style>
@@ -169,21 +208,56 @@ export default function ContactPage() {
             <form id="lead-capture-form" className="win95-form">
               <h3>Get Your Plumbing Problem Fixed Today!</h3>
               
+              <div className="emergency-highlight">
+                🚨 Emergency? Call NOW: <a href="tel:814-273-6315">814-273-6315</a> 🚨
+                <br />
+                <small>Available 24/7 for urgent plumbing issues</small>
+              </div>
+              
               <div className="form-message" id="form-message" style={{display: 'none'}}></div>
               
               <div className="form-group">
                 <label htmlFor="name">Full Name *</label>
-                <input type="text" id="name" name="name" required className="win95-input" autoComplete="name" />
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  required 
+                  className="win95-input" 
+                  autoComplete="name"
+                  placeholder="Enter your full name"
+                  minLength={2}
+                  title="Please enter your full name"
+                />
               </div>
               
               <div className="form-group">
                 <label htmlFor="phone">Phone Number *</label>
-                <input type="tel" id="phone" name="phone" required className="win95-input" autoComplete="tel" />
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  required 
+                  className="win95-input" 
+                  autoComplete="tel"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10}|\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                  placeholder="(814) 555-1234"
+                  title="Please enter a valid phone number"
+                />
               </div>
               
               <div className="form-group">
                 <label htmlFor="email">Email Address *</label>
-                <input type="email" id="email" name="email" required className="win95-input" autoComplete="email" />
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  required 
+                  className="win95-input" 
+                  autoComplete="email"
+                  placeholder="your.email@example.com"
+                  title="Please enter a valid email address"
+                />
               </div>
               
               <div className="form-group">
@@ -192,6 +266,7 @@ export default function ContactPage() {
                   <option value="">Select Property Type</option>
                   <option value="residential">Residential</option>
                   <option value="commercial">Commercial</option>
+                  <option value="industrial">Industrial</option>
                 </select>
               </div>
               
@@ -213,7 +288,17 @@ export default function ContactPage() {
               
               <div className="form-group">
                 <label htmlFor="problem">Describe your plumbing problem *</label>
-                <textarea id="problem" name="problem" required className="win95-textarea" rows={4} placeholder="Please describe the issue you're experiencing..."></textarea>
+                <textarea 
+                  id="problem" 
+                  name="problem" 
+                  required 
+                  className="win95-textarea" 
+                  rows={4} 
+                  placeholder="Please describe the issue you're experiencing in detail..."
+                  minLength={10}
+                  maxLength={1000}
+                  title="Please provide a detailed description of your plumbing issue (minimum 10 characters)"
+                ></textarea>
               </div>
               
               <div className="form-group">
