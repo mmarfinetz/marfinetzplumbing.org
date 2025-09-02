@@ -59,3 +59,11 @@ logs/
 
 # Package manager files
 yarn.lock
+
+# temp artifacts
+.dev-temp/
+tmp/
+
+# local AI/editor configs
+.cursor/
+.claude/
