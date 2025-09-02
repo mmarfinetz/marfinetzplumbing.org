@@ -227,7 +227,7 @@
   
   .window.active-window {
     display: block !important; /* Only show active window */
-    z-index: 100 !important;
+    z-index: 10001 !important; /* Above backdrop (9998) and taskbar (1000) */
   }
   
   .window-content {

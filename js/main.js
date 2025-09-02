@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let isStartMenuOpen = false;
   // Store original window positions and sizes for restore after maximize
   let windowStates = {};
+  // Track stacking order so active windows stay above backdrops/taskbar
+  let zIndexCounter = 10000;
   
   // Utility Functions
   function updateTime() {
@@ -36,18 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
     timeDisplay.textContent = `${hour12}:${minutesFormatted} ${isPM ? 'PM' : 'AM'}`;
   }
   
-  function makeWindowActive(window) {
+  function makeWindowActive(win) {
     if (activeWindow) {
       activeWindow.classList.remove('active-window');
     }
-    window.classList.add('active-window');
-    window.style.zIndex = '10';
-    activeWindow = window;
+    win.classList.add('active-window');
+    // Ensure the window is stacked above backdrop/taskbar
+    zIndexCounter += 1;
+    win.style.zIndex = String(zIndexCounter);
+    activeWindow = win;
     
     // Update taskbar
     const taskbarEntries = document.querySelectorAll('.taskbar-program');
     taskbarEntries.forEach(entry => {
-      if (entry.dataset.windowId === window.id) {
+      if (entry.dataset.windowId === win.id) {
         entry.classList.add('active');
       } else {
         entry.classList.remove('active');
