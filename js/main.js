@@ -120,7 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Minimize a window to the taskbar
   function minimizeWindow(window) {
     window.classList.add('minimized');
-    
+    // Hide the window when minimized to avoid stray overlays
+    window.style.display = 'none';
+
     // Highlight the taskbar entry
     const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
     if (taskbarEntry) {
@@ -145,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Restore minimized window
         window.classList.remove('minimized');
         taskbarEntry.classList.remove('minimized');
+        window.style.display = 'block';
         makeWindowActive(window);
       } else if (window === activeWindow) {
         // Minimize active window
@@ -167,7 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handler for contact window backdrop
     const contactBackdrop = document.getElementById('contact-window-backdrop');
     if (contactBackdrop) {
-      contactBackdrop.addEventListener('click', function() {
+      // Only close when clicking directly on the backdrop, not the window
+      contactBackdrop.addEventListener('click', function(e) {
+        if (e.target !== contactBackdrop) return;
         const contactWindow = document.getElementById('contact-window');
         if (contactWindow) {
           contactWindow.style.display = 'none';
@@ -265,26 +270,31 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   function openWindow(windowId) {
-    const window = document.getElementById(windowId);
-    if (!window) return;
+    const win = document.getElementById(windowId);
+    if (!win) return;
     
     // Show backdrop for contact window
     if (windowId === 'contact-window') {
       const backdrop = document.getElementById('contact-window-backdrop');
       if (backdrop) {
         backdrop.style.display = 'block';
+        backdrop.style.zIndex = '9998';
       }
     }
     
-    window.style.display = 'block';
+    // Ensure it's not minimized when (re)opening
+    win.classList.remove('minimized');
+    win.style.display = 'block';
     
     // Check if taskbar entry already exists
     const existingEntry = document.querySelector(`.taskbar-program[data-window-id="${windowId}"]`);
     if (!existingEntry) {
-      createTaskbarEntry(window);
+      createTaskbarEntry(win);
+    } else {
+      existingEntry.classList.remove('minimized');
     }
     
-    makeWindowActive(window);
+    makeWindowActive(win);
     
     // If it's the testimonials window, initialize Google reviews
     if (windowId === 'testimonials-window' && typeof loadGoogleReviews === 'function') {
