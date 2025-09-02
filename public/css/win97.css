@@ -42,6 +42,16 @@ body {
   background-size: 100% 100%;
 }
 
+/* Contact page layout utilities */
+.contact-page .modal-backdrop {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 360px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Logo background */
 body::before {
   content: '';
@@ -178,6 +188,33 @@ body::after {
   resize: both;
   overflow: auto;
   transition: all 0.15s ease-out;
+}
+
+/* Center the contact modal window */
+.contact-modal {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  width: 800px;
+  max-width: 95vw;
+  z-index: 10;
+}
+
+/* Ensure the contact modal content doesn't stretch full width */
+.contact-modal .window-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Footer strip takes entire bottom portion on contact page */
+.contact-page ~ .footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
 }
 
 /* Maximized window styling */

@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
   let isStartMenuOpen = false;
   // Store original window positions and sizes for restore after maximize
   let windowStates = {};
+  // Local dev detection for Win95 static server → Next dev contact route
+  const IS_LOCAL_PUBLIC_DEV = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port === '8000';
+  const CONTACT_DEV_URL = 'http://localhost:3001/contact';
+
+  function routeToContact() {
+    if (IS_LOCAL_PUBLIC_DEV) {
+      window.location.href = CONTACT_DEV_URL;
+    } else {
+      window.location.href = '/contact';
+    }
+  }
   
   // Utility Functions
   function updateTime() {
@@ -234,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (targetId === 'services') {
       openWindow('services-window');
     } else if (targetId === 'contact') {
-      window.location.href = '/contact';
+      routeToContact();
       return;
     } else if (targetId === 'testimonials') {
       openWindow('testimonials-window');
@@ -447,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // CTA Button Click Handler
   if (ctaButton) {
     ctaButton.addEventListener('click', function() {
-      window.location.href = '/contact';
+      routeToContact();
     });
   }
   
@@ -482,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const startContact = document.getElementById('start-contact');
   if (startContact) {
     startContact.addEventListener('click', () => {
-      window.location.href = '/contact';
+      routeToContact();
     });
   }
   
@@ -633,6 +644,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize everything
   initUI();
   initMobileOptimizations();
+
+  // Rewrite Contact links to Next dev server during local static (public) development
+  if (IS_LOCAL_PUBLIC_DEV) {
+    document.querySelectorAll('a[href="/contact"], a[href="/contact/"]').forEach((anchor) => {
+      anchor.setAttribute('href', CONTACT_DEV_URL);
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = CONTACT_DEV_URL;
+      });
+    });
+  }
   
   // Check URL parameters for auto-opening windows
   const urlParams = new URLSearchParams(window.location.search);

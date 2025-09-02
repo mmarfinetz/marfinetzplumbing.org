@@ -34,7 +34,7 @@ export default function ContactPage() {
   };
 
   return (
-    <>
+    <div className="contact-page">
       <Script src="/js/lead-capture.js" strategy="afterInteractive" />
       
       {/* Modal Backdrop */}
@@ -168,6 +168,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

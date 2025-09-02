@@ -1,7 +1,12 @@
+"use client";
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+  const hideEmergencyBanner = pathname?.startsWith('/contact');
+
   return (
     <>
       <header className="header">
@@ -57,22 +62,24 @@ export default function Header() {
         </nav>
       </header>
 
-      <div className="emergency-banner">
-        <div className="container">
-          <div className="emergency-content">
-            <div className="emergency-icon">
-              <img src="/img/emergency-icon.png" alt="Emergency Plumbing" />
-            </div>
-            <div className="emergency-text">
-              <h2>24/7 Emergency Plumbing Services</h2>
-              <p>Available in Erie County, Lake City, and Conneaut</p>
-            </div>
-            <div className="emergency-cta">
-              <a href="tel:8142736315" className="btn btn-emergency">Call Now: (814) 273-6315</a>
+      {!hideEmergencyBanner && (
+        <div className="emergency-banner">
+          <div className="container">
+            <div className="emergency-content">
+              <div className="emergency-icon">
+                <img src="/img/emergency-icon.png" alt="Emergency Plumbing" />
+              </div>
+              <div className="emergency-text">
+                <h2>24/7 Emergency Plumbing Services</h2>
+                <p>Available in Erie County, Lake City, and Conneaut</p>
+              </div>
+              <div className="emergency-cta">
+                <a href="tel:8142736315" className="btn btn-emergency">Call Now: (814) 273-6315</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
