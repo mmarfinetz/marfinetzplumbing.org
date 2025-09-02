@@ -411,23 +411,27 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('mousemove', handleWindowDrag);
   document.addEventListener('mouseup', handleWindowDragEnd);
   
-  // Add double-click handlers for title bars
-  document.querySelectorAll('.title-bar').forEach(titleBar => {
-    titleBar.addEventListener('dblclick', handleTitleBarDoubleClick);
-  });
+  // Double-click handlers are attached per-window in initUI()
   
   closeButtons.forEach(button => {
     button.addEventListener('click', (event) => {
-      const window = event.target.closest('.window');
-      window.style.display = 'none';
-      
+      const win = event.target.closest('.window');
+      if (!win) return;
+      win.style.display = 'none';
+
+      // Hide backdrop for contact window
+      if (win.id === 'contact-window') {
+        const backdrop = document.getElementById('contact-window-backdrop');
+        if (backdrop) backdrop.style.display = 'none';
+      }
+
       // Remove from taskbar
-      const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
+      const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${win.id}"]`);
       if (taskbarEntry) {
         taskbarEntry.remove();
       }
-      
-      if (activeWindow === window) {
+
+      if (activeWindow === win) {
         activeWindow = null;
       }
     });
@@ -436,30 +440,18 @@ document.addEventListener('DOMContentLoaded', function() {
   minimizeButtons.forEach(button => {
     button.addEventListener('click', (event) => {
       event.stopPropagation(); // Prevent window drag
-      const window = button.closest('.window');
-      minimizeWindow(window);
+      const win = button.closest('.window');
+      if (!win) return;
+      // Hide backdrop for contact window when minimizing
+      if (win.id === 'contact-window') {
+        const backdrop = document.getElementById('contact-window-backdrop');
+        if (backdrop) backdrop.style.display = 'none';
+      }
+      minimizeWindow(win);
     });
   });
   
-  // Add event handlers for maximize buttons
-  const maximizeButtons = document.querySelectorAll('.title-bar-button.maximize-button');
-  maximizeButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent window drag
-      const window = button.closest('.window');
-      
-      if (window.classList.contains('maximized')) {
-        // If already maximized, restore it
-        restoreWindow(window);
-      } else {
-        // Otherwise, maximize it
-        maximizeWindow(window);
-      }
-      
-      // Ensure window is active
-      makeWindowActive(window);
-    });
-  });
+  // Maximize handlers are attached per-window in initUI()
   
   if (testimonialNextBtn) {
     testimonialNextBtn.addEventListener('click', handleNextTestimonial);
@@ -688,60 +680,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileOptimizations();
   });
   
-  // Add a delegated event listener for any close buttons that might be added dynamically
-  document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('close-button')) {
-      const window = event.target.closest('.window');
-      if (window) {
-        window.style.display = 'none';
-        
-        // Hide backdrop for contact window
-        if (window.id === 'contact-window') {
-          const backdrop = document.getElementById('contact-window-backdrop');
-          if (backdrop) {
-            backdrop.style.display = 'none';
-          }
-        }
-        
-        // Remove from taskbar
-        const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
-        if (taskbarEntry) {
-          taskbarEntry.remove();
-        }
-        
-        if (activeWindow === window) {
-          activeWindow = null;
-        }
-      }
-    }
-    
-    // Handle minimize button
-    if (event.target.classList.contains('minimize-button')) {
-      const window = event.target.closest('.window');
-      if (window) {
-        window.style.display = 'none';
-        
-        // Hide backdrop for contact window
-        if (window.id === 'contact-window') {
-          const backdrop = document.getElementById('contact-window-backdrop');
-          if (backdrop) {
-            backdrop.style.display = 'none';
-          }
-        }
-        
-        // Keep in taskbar but mark as minimized
-        const taskbarEntry = document.querySelector(`.taskbar-program[data-window-id="${window.id}"]`);
-        if (taskbarEntry) {
-          taskbarEntry.classList.add('minimized');
-        }
-      }
-    }
-  });
-
-  // Check for URL parameters to open specific windows
-  const urlParams = new URLSearchParams(window.location.search);
-  const windowParam = urlParams.get('window');
-  if (windowParam === 'contact') {
-    openWindow('contact-window');
-  }
+  // Removed delegated close/minimize handlers to avoid duplicate actions
 });
