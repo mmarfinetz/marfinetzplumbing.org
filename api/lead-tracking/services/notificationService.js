@@ -160,12 +160,24 @@ class NotificationService {
       });
 
       // Send SMS via Twilio
-      const result = await this.twilioClient.messages.create({
+      const messageParams = {
         body: message,
-        to: phoneNumber,
-        from: process.env.TWILIO_PHONE_NUMBER,
-        messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID
-      });
+        to: phoneNumber
+      };
+
+      // Prefer Messaging Service SID when provided; otherwise fall back to phone number.
+      const messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID && process.env.TWILIO_MESSAGING_SERVICE_SID.trim();
+      const fromPhoneNumber = process.env.TWILIO_PHONE_NUMBER && process.env.TWILIO_PHONE_NUMBER.trim();
+
+      if (messagingServiceSid) {
+        messageParams.messagingServiceSid = messagingServiceSid;
+      } else if (fromPhoneNumber) {
+        messageParams.from = fromPhoneNumber;
+      } else {
+        throw new Error('Twilio sender not configured. Set TWILIO_MESSAGING_SERVICE_SID or TWILIO_PHONE_NUMBER.');
+      }
+
+      const result = await this.twilioClient.messages.create(messageParams);
 
       // Record usage and log
       await this.rateLimiter.recordUsage('sms', phoneNumber);

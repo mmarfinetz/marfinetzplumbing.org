@@ -13,6 +13,19 @@ cp -r css public/ 2>/dev/null || true
 cp -r js public/ 2>/dev/null || true
 cp index.html public/ 2>/dev/null || true
 
+# Inject Google Places API key at build time (keeps key out of git)
+if [ -n "$GOOGLE_PLACES_API_KEY" ] && [ -f public/index.html ]; then
+  echo "Injecting GOOGLE_PLACES_API_KEY into public/index.html"
+  # Use GNU sed if available, otherwise macOS sed
+  if sed --version >/dev/null 2>&1; then
+    sed -i "s/REPLACE_WITH_YOUR_API_KEY/$GOOGLE_PLACES_API_KEY/g" public/index.html
+  else
+    sed -i '' "s/REPLACE_WITH_YOUR_API_KEY/$GOOGLE_PLACES_API_KEY/g" public/index.html
+  fi
+else
+  echo "GOOGLE_PLACES_API_KEY not set; client-side Places library will be skipped."
+fi
+
 # Run the Next.js build for the calculator and other Next.js features
 npm run build
 

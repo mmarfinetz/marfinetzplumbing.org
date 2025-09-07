@@ -13,7 +13,7 @@ export default function Header() {
         <div className="top-bar">
           <div className="container">
             <div className="contact-info">
-              <span>Serving Erie County, PA | Lake City, PA | Conneaut, OH</span>
+              <span>Serving Erie County, PA | Crawford County, PA | Conneaut, OH</span>
               <a href="tel:8142736315" className="phone-number">(814) 273-6315</a>
             </div>
           </div>
@@ -41,8 +41,8 @@ export default function Header() {
               <li className="dropdown">
                 <Link href="/service-areas">Service Areas</Link>
                 <ul className="dropdown-menu">
-                  <li><Link href="/service-areas/lake-city-pa">Lake City, PA</Link></li>
-                  <li><Link href="/service-areas/erie-pa">Erie, PA</Link></li>
+                  <li><Link href="/service-areas/erie-pa">Erie County, PA</Link></li>
+                  <li><Link href="/service-areas/crawford-pa">Crawford County, PA</Link></li>
                   <li><Link href="/service-areas/conneaut-oh">Conneaut, OH</Link></li>
                 </ul>
               </li>
@@ -71,7 +71,7 @@ export default function Header() {
               </div>
               <div className="emergency-text">
                 <h2>24/7 Emergency Plumbing Services</h2>
-                <p>Available in Erie County, Lake City, and Conneaut</p>
+                <p>Available in Erie County, Crawford County, and Conneaut OH</p>
               </div>
               <div className="emergency-cta">
                 <a href="tel:8142736315" className="btn btn-emergency">Call Now: (814) 273-6315</a>

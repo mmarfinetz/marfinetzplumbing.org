@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Sewer Camera Inspection in Erie County | Marfinetz Plumbing',
-  description: 'Professional sewer camera inspection services in Erie County, Lake City PA, and Conneaut OH. Find pipe problems without destructive digging. Call (814) 273-6315.',
+  description: 'Professional sewer camera inspection services in Erie County, Crawford County PA, and Conneaut OH. Find pipe problems without destructive digging. Call (814) 273-6315.',
 }
 
 export default function SewerCameraInspection() {
@@ -15,14 +15,14 @@ export default function SewerCameraInspection() {
           <div className="service-hero-content">
             <h1>Professional Sewer Camera Inspection Services</h1>
             <p className="service-hero-subtitle">Find & Fix Sewer Problems Fast with Video Pipe Inspection</p>
-            <p className="service-hero-description">At Marfinetz Plumbing, we use state-of-the-art sewer camera technology to inspect your pipes and sewer lines without destructive digging or guesswork. Our professional sewer camera inspection services help homeowners and businesses in Erie County, Lake City, and Conneaut identify plumbing problems quickly and accurately.</p>
+            <p className="service-hero-description">At Marfinetz Plumbing, we use state-of-the-art sewer camera technology to inspect your pipes and sewer lines without destructive digging or guesswork. Our professional sewer camera inspection services help homeowners and businesses in Erie County, Crawford County, and Conneaut OH identify plumbing problems quickly and accurately.</p>
             <div className="service-hero-cta">
               <a href="tel:8142736315" className="btn btn-primary">Call (814) 273-6315</a>
               <a href="/contact" className="btn btn-secondary">Request Service</a>
             </div>
           </div>
           <div className="service-hero-image">
-            <img src="/img/sewer-camera-inspection-hero.jpg" alt="Sewer Camera Inspection Service" />
+            <img src="/img/inspection.png" alt="Sewer camera inspection" />
           </div>
         </div>
       </section>
@@ -41,18 +41,12 @@ export default function SewerCameraInspection() {
                 <h3>Camera Insertion</h3>
                 <p>Our technicians insert a high-definition waterproof camera attached to a flexible rod into your sewer line or drain.</p>
               </div>
-              <div className="step-image">
-                <img src="/img/camera-insertion.jpg" alt="Sewer Camera Insertion" />
-              </div>
             </div>
             <div className="process-step">
               <div className="step-number">2</div>
               <div className="step-content">
                 <h3>Real-Time Video</h3>
                 <p>As the camera moves through the pipe, it transmits real-time video to a monitor, allowing our technicians to see exactly what&apos;s happening inside your pipes.</p>
-              </div>
-              <div className="step-image">
-                <img src="/img/real-time-video.jpg" alt="Real-Time Sewer Video" />
               </div>
             </div>
             <div className="process-step">
@@ -61,18 +55,12 @@ export default function SewerCameraInspection() {
                 <h3>Problem Identification</h3>
                 <p>We identify issues such as blockages, cracks, breaks, tree root intrusions, pipe collapses, or misalignments.</p>
               </div>
-              <div className="step-image">
-                <img src="/img/problem-identification.jpg" alt="Sewer Problem Identification" />
-              </div>
             </div>
             <div className="process-step">
               <div className="step-number">4</div>
               <div className="step-content">
                 <h3>Solution Recommendation</h3>
                 <p>Based on our findings, we recommend the most effective and cost-efficient solution for your specific situation.</p>
-              </div>
-              <div className="step-image">
-                <img src="/img/solution-recommendation.jpg" alt="Plumbing Solution Recommendation" />
               </div>
             </div>
           </div>
@@ -89,42 +77,42 @@ export default function SewerCameraInspection() {
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/accurate-icon.png" alt="Accurate Diagnosis Icon" />
+                <img src="/img/icons/accurate.svg" alt="Accurate Diagnosis Icon" />
               </div>
               <h3>Accurate Diagnosis</h3>
               <p>See exactly what&apos;s causing your plumbing issues with high-definition video evidence.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/non-destructive-icon.png" alt="Non-Destructive Icon" />
+                <img src="/img/icons/non-destructive.svg" alt="Non-Destructive Icon" />
               </div>
               <h3>Non-Destructive</h3>
               <p>No need to dig up your yard or break through walls to locate problems.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/cost-effective-icon.png" alt="Cost-Effective Icon" />
+                <img src="/img/icons/cost.svg" alt="Cost-Effective Icon" />
               </div>
               <h3>Cost-Effective</h3>
               <p>Pinpoint problems to avoid unnecessary repairs and save money in the long run.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/preventative-icon.png" alt="Preventative Maintenance Icon" />
+                <img src="/img/icons/preventative.svg" alt="Preventative Maintenance Icon" />
               </div>
               <h3>Preventative Maintenance</h3>
               <p>Identify potential issues before they become expensive emergencies.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/documentation-icon.png" alt="Documentation Icon" />
+                <img src="/img/icons/documentation.svg" alt="Documentation Icon" />
               </div>
               <h3>Documentation</h3>
               <p>Receive video evidence of your pipe condition for your records or insurance purposes.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/peace-of-mind-icon.png" alt="Peace of Mind Icon" />
+                <img src="/img/icons/peace.svg" alt="Peace of Mind Icon" />
               </div>
               <h3>Peace of Mind</h3>
               <p>Know exactly what&apos;s happening in your plumbing system with visual confirmation.</p>
@@ -143,42 +131,42 @@ export default function SewerCameraInspection() {
           <div className="reasons-grid">
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/recurring-clogs-icon.png" alt="Recurring Clogs Icon" />
+                <img src="/img/icons/recurring-clogs.svg" alt="Recurring Clogs Icon" />
               </div>
               <h3>Recurring Drain Clogs</h3>
               <p>If your drains keep clogging despite repeated clearing attempts, a deeper issue may be present.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/slow-drains-icon.png" alt="Slow Drains Icon" />
+                <img src="/img/icons/slow-drains.svg" alt="Slow Drains Icon" />
               </div>
               <h3>Slow Draining Fixtures</h3>
               <p>Multiple slow-draining sinks, tubs, or toilets often indicate a sewer line problem.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/sewage-odors-icon.png" alt="Sewage Odors Icon" />
+                <img src="/img/icons/odors.svg" alt="Sewage Odors Icon" />
               </div>
               <h3>Sewage Odors</h3>
               <p>Unpleasant smells in your home or yard could signal a broken or leaking sewer pipe.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/home-purchase-icon.png" alt="Home Purchase Icon" />
+                <img src="/img/icons/home-purchase.svg" alt="Home Purchase Icon" />
               </div>
               <h3>Before Purchasing a Home</h3>
               <p>Inspect the sewer line before buying to avoid expensive surprises after closing.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/older-home-icon.png" alt="Older Home Icon" />
+                <img src="/img/icons/older-home.svg" alt="Older Home Icon" />
               </div>
               <h3>Older Homes</h3>
               <p>Homes over 20 years old are more prone to sewer line issues and should be inspected regularly.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/renovation-icon.png" alt="Renovation Icon" />
+                <img src="/img/icons/renovation.svg" alt="Renovation Icon" />
               </div>
               <h3>Before Renovations</h3>
               <p>Check sewer lines before adding bathrooms or making major plumbing changes.</p>
@@ -224,47 +212,47 @@ export default function SewerCameraInspection() {
         <div className="container">
           <div className="section-header">
             <h2>Why Choose Marfinetz Plumbing for Sewer Inspection</h2>
-            <p>The trusted choice in Erie County, Lake City, and Conneaut</p>
+            <p>The trusted choice in Erie County, Crawford County, and Conneaut OH</p>
           </div>
           <div className="reasons-grid">
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/service-area-icon.png" alt="Service Area Icon" />
+                <img src="/img/icons/service-area.svg" alt="Service Area Icon" />
               </div>
               <h3>Tri-Market Service Area</h3>
-              <p>Serving Erie County, Lake City, and Conneaut areas with prompt, reliable service.</p>
+              <p>Serving Erie County, Crawford County, and Conneaut OH areas with prompt, reliable service.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/equipment-icon.png" alt="Equipment Icon" />
+                <img src="/img/icons/equipment.svg" alt="Equipment Icon" />
               </div>
               <h3>State-of-the-Art Equipment</h3>
               <p>We use the latest high-definition camera technology for clear, accurate inspections.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/technician-icon.png" alt="Technician Icon" />
+                <img src="/img/icons/technician.svg" alt="Technician Icon" />
               </div>
               <h3>Experienced Technicians</h3>
               <p>Our licensed professionals are trained to identify and solve complex sewer issues.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/pricing-icon.png" alt="Pricing Icon" />
+                <img src="/img/icons/pricing.svg" alt="Pricing Icon" />
               </div>
               <h3>Upfront, Transparent Pricing</h3>
               <p>No surprises or hidden fees - just honest, straightforward pricing.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/same-day-icon.png" alt="Same Day Icon" />
+                <img src="/img/icons/same-day.svg" alt="Same Day Icon" />
               </div>
               <h3>Same-Day Service Available</h3>
               <p>Quick response times when you need help fast.</p>
             </div>
             <div className="reason-card">
               <div className="reason-icon">
-                <img src="/img/guarantee-icon.png" alt="Guarantee Icon" />
+                <img src="/img/icons/guarantee.svg" alt="Guarantee Icon" />
               </div>
               <h3>100% Satisfaction Guarantee</h3>
               <p>We stand behind our work with a complete satisfaction guarantee.</p>
@@ -344,7 +332,7 @@ export default function SewerCameraInspection() {
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Schedule Your Sewer Camera Inspection?</h2>
-            <p>Contact Marfinetz Plumbing today for fast, professional service in Erie County, Lake City, and Conneaut.</p>
+            <p>Contact Marfinetz Plumbing today for fast, professional service in Erie County, Crawford County, and Conneaut OH.</p>
             <div className="cta-buttons">
               <a href="tel:8142736315" className="btn btn-primary">Call (814) 273-6315</a>
               <a href="/contact" className="btn btn-secondary">Request Service Online</a>

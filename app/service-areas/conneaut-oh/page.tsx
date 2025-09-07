@@ -22,7 +22,7 @@ export default function ConneautOH() {
             </div>
           </div>
           <div className="location-hero-image">
-            <img src="/img/conneaut-oh.jpg" alt="Conneaut, Ohio" />
+            <img src="/img/win-logo.png" alt="Conneaut, Ohio" />
           </div>
         </div>
       </section>
@@ -38,7 +38,7 @@ export default function ConneautOH() {
             {/* Sewer Camera Inspection Card */}
             <div className="service-card featured">
               <div className="service-icon">
-                <img src="/img/camera-icon.png" alt="Sewer Camera Icon" />
+                <img src="/img/inspection.png" alt="Sewer Camera Icon" />
               </div>
               <h3>Sewer Camera Inspection</h3>
               <p>Our high-definition sewer camera inspections help Conneaut homeowners identify blockages, cracks, and other issues without destructive digging.</p>
@@ -48,7 +48,7 @@ export default function ConneautOH() {
             {/* Drain Cleaning Card */}
             <div className="service-card">
               <div className="service-icon">
-                <img src="/img/drain-icon.png" alt="Drain Cleaning Icon" />
+                <img src="/img/pipe2.png" alt="Drain Cleaning Icon" />
               </div>
               <h3>Drain Cleaning & Snaking</h3>
               <p>Professional solutions for clogged drains and sewer lines in Conneaut homes and businesses.</p>
@@ -58,7 +58,7 @@ export default function ConneautOH() {
             {/* Sewer Line Repair Card */}
             <div className="service-card">
               <div className="service-icon">
-                <img src="/img/pipe-icon.png" alt="Sewer Line Repair Icon" />
+                <img src="/img/pipe3.png" alt="Sewer Line Repair Icon" />
               </div>
               <h3>Sewer Line Repair</h3>
               <p>Expert repair and replacement services for damaged sewer lines in Conneaut, including trenchless options.</p>
@@ -68,7 +68,7 @@ export default function ConneautOH() {
             {/* Emergency Services Card */}
             <div className="service-card">
               <div className="service-icon">
-                <img src="/img/emergency-icon.png" alt="Emergency Plumbing Icon" />
+                <img src="/img/msg_warning-0.png" alt="Emergency Plumbing Icon" />
               </div>
               <h3>Emergency Plumbing</h3>
               <p>24/7 emergency service for Conneaut residents facing burst pipes, major leaks, sewer backups, and other plumbing emergencies.</p>
@@ -123,28 +123,28 @@ export default function ConneautOH() {
           <div className="issues-grid">
             <div className="issue-card">
               <div className="issue-icon">
-                <img src="/img/aging-pipes-icon.png" alt="Aging Pipes Icon" />
+                <img src="/img/w98_hardware.png" alt="Aging Pipes Icon" />
               </div>
               <h3>Aging Infrastructure</h3>
               <p>Many Conneaut homes have older plumbing systems that are prone to leaks, corrosion, and failures. Our sewer camera inspections can identify these issues before they become major problems.</p>
             </div>
             <div className="issue-card">
               <div className="issue-icon">
-                <img src="/img/tree-roots-icon.png" alt="Tree Roots Icon" />
+                <img src="/img/w2k_search.png" alt="Tree Roots Icon" />
               </div>
               <h3>Tree Root Intrusion</h3>
               <p>Conneaut&apos;s mature trees can cause significant damage to sewer lines. Our camera inspections can identify root intrusions and help target repairs precisely.</p>
             </div>
             <div className="issue-card">
               <div className="issue-icon">
-                <img src="/img/soil-icon.png" alt="Soil Icon" />
+                <img src="/img/tools_gear-0.png" alt="Soil Icon" />
               </div>
               <h3>Soil Conditions</h3>
               <p>The clay-heavy soil in parts of Conneaut can put pressure on pipes and cause shifting that leads to cracks and breaks. We can identify these issues with our camera equipment.</p>
             </div>
             <div className="issue-card">
               <div className="issue-icon">
-                <img src="/img/winter-icon.png" alt="Winter Icon" />
+                <img src="/img/warning.png" alt="Winter Icon" />
               </div>
               <h3>Winter Freezing</h3>
               <p>Conneaut&apos;s cold winters can lead to frozen and burst pipes. We provide emergency services and preventative maintenance to protect your plumbing system.</p>

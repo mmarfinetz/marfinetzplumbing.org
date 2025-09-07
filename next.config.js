@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV === 'development'
+const useStaticExport = process.env.USE_STATIC_EXPORT !== 'false';
 
-const nextConfig = isDev ? {
+const nextConfig = isDev || !useStaticExport ? {
   // Development configuration
   reactStrictMode: true,
   swcMinify: false,

@@ -1,4 +1,6 @@
 import React from 'react';
+import ImageWithFallback from '@/components/ui/ImageWithFallback';
+import GoogleReviews from './components/GoogleReviews';
 
 export default function Home() {
   return (
@@ -8,7 +10,7 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <h1>Professional Sewer Camera Inspection & Plumbing Services</h1>
-            <p className="hero-subtitle">Serving Erie County, Lake City PA, and Conneaut OH</p>
+            <p className="hero-subtitle">Erie County, Crawford County, and Conneaut OH</p>
             <p className="hero-description">Find and fix plumbing problems fast with our state-of-the-art sewer camera inspection services. No guesswork, no unnecessary digging.</p>
             <div className="hero-cta">
               <a href="/services/sewer-camera-inspection" className="btn btn-primary">Learn About Sewer Inspection</a>
@@ -16,7 +18,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image">
-            <img src="/img/sewer-camera-inspection.jpg" alt="Sewer Camera Inspection Service" />
+            <img src="/img/with-padding-1.png" alt="Sewer camera inspection" />
           </div>
         </div>
       </section>
@@ -31,8 +33,8 @@ export default function Home() {
           <div className="services-grid">
             {/* Sewer Camera Inspection Card */}
             <div className="service-card featured">
-              <div className="service-icon">
-                <img src="/img/camera-icon.png" alt="Sewer Camera Icon" />
+              <div className="service-thumb">
+                <img src="/img/Sewer-Camera-Inspection.png" alt="Sewer Camera Inspection" />
               </div>
               <h3>Sewer Camera Inspection</h3>
               <p>Identify blockages, cracks, and other issues without destructive digging. Our high-definition cameras provide accurate diagnosis of your sewer line problems.</p>
@@ -47,8 +49,8 @@ export default function Home() {
             
             {/* Drain Cleaning Card */}
             <div className="service-card">
-              <div className="service-icon">
-                <img src="/img/drain-icon.png" alt="Drain Cleaning Icon" />
+              <div className="service-thumb">
+                <img src="/img/Drain-Snake.jpg" alt="Drain Cleaning & Snaking" />
               </div>
               <h3>Drain Cleaning & Snaking</h3>
               <p>Professional solutions for clogged drains and sewer lines. We use specialized equipment to clear blockages quickly and effectively.</p>
@@ -57,8 +59,8 @@ export default function Home() {
             
             {/* Sewer Line Repair Card */}
             <div className="service-card">
-              <div className="service-icon">
-                <img src="/img/pipe-icon.png" alt="Sewer Line Repair Icon" />
+              <div className="service-thumb">
+                <img src="/img/Sewer-Line-Problems_iStock-1326402307.jpg" alt="Sewer Line Repair" />
               </div>
               <h3>Sewer Line Repair</h3>
               <p>Expert repair and replacement services for damaged sewer lines, including trenchless options to minimize disruption.</p>
@@ -68,7 +70,7 @@ export default function Home() {
             {/* Emergency Services Card */}
             <div className="service-card">
               <div className="service-icon">
-                <img src="/img/emergency-icon.png" alt="Emergency Plumbing Icon" />
+                <img className="no-stretch" src="/img/msg_warning-0.png" alt="Emergency Plumbing Icon" />
               </div>
               <h3>Emergency Plumbing</h3>
               <p>24/7 emergency service for burst pipes, major leaks, sewer backups, and other plumbing emergencies.</p>
@@ -93,28 +95,28 @@ export default function Home() {
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/location-icon.png" alt="Service Area Icon" />
+                <img src="/img/icons/location.svg" alt="Service Area Icon" />
               </div>
               <h3>Tri-Market Service Area</h3>
-              <p>Serving Lake City, Erie, and Conneaut with fast, reliable service across state lines.</p>
+              <p>Serving Erie County, Crawford County, and Conneaut OH with fast, reliable service across state lines.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/experience-icon.png" alt="Experience Icon" />
+                <img src="/img/icons/experience.svg" alt="Experience Icon" />
               </div>
               <h3>Experienced Technicians</h3>
               <p>Our licensed professionals have the expertise to handle any plumbing challenge.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/pricing-icon.png" alt="Pricing Icon" />
+                <img src="/img/icons/pricing.svg" alt="Pricing Icon" />
               </div>
               <h3>Transparent Pricing</h3>
               <p>Upfront, honest pricing with no hidden fees or surprise charges.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">
-                <img src="/img/guarantee-icon.png" alt="Guarantee Icon" />
+                <img src="/img/icons/guarantee.svg" alt="Guarantee Icon" />
               </div>
               <h3>Satisfaction Guaranteed</h3>
               <p>We stand behind our work with a 100% satisfaction guarantee on all services.</p>
@@ -133,23 +135,23 @@ export default function Home() {
           <div className="areas-grid">
             <div className="area-card">
               <div className="area-image">
-                <img src="/img/lake-city-pa.jpg" alt="Lake City, PA" />
+                <ImageWithFallback src="/img/erie.png" alt="Erie County, PA" />
               </div>
-              <h3>Lake City, PA</h3>
-              <p>Our home base, providing fast response times throughout Lake City and surrounding areas.</p>
-              <a href="/service-areas/lake-city-pa" className="btn btn-outline">Lake City Services</a>
-            </div>
-            <div className="area-card">
-              <div className="area-image">
-                <img src="/img/erie-pa.jpg" alt="Erie, PA" />
-              </div>
-              <h3>Erie, PA</h3>
+              <h3>Erie County, PA</h3>
               <p>Comprehensive plumbing services throughout Erie County, including sewer camera inspections.</p>
-              <a href="/service-areas/erie-pa" className="btn btn-outline">Erie Services</a>
+              <a href="/service-areas/erie-pa" className="btn btn-outline">Erie County Services</a>
             </div>
             <div className="area-card">
               <div className="area-image">
-                <img src="/img/conneaut-oh.jpg" alt="Conneaut, OH" />
+                <ImageWithFallback src="/img/crawford.png" alt="Crawford County, PA" />
+              </div>
+              <h3>Crawford County, PA</h3>
+              <p>Reliable plumbing solutions for Crawford County homes and businesses.</p>
+              <a href="/service-areas/crawford-pa" className="btn btn-outline">Crawford County Services</a>
+            </div>
+            <div className="area-card">
+              <div className="area-image">
+                <ImageWithFallback src="/img/conneaut.png" alt="Conneaut, OH" />
               </div>
               <h3>Conneaut, OH</h3>
               <p>Cross-border service for our Ohio neighbors with the same quality and reliability.</p>
@@ -159,47 +161,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section (Live Google Reviews) */}
       <section className="testimonials">
         <div className="container">
           <div className="section-header">
             <h2>What Our Customers Say</h2>
-            <p>Read reviews from satisfied customers across our service areas</p>
+            <p>Live Google reviews from our customers</p>
           </div>
-          <div className="testimonials-slider">
-            {/* Testimonial 1 */}
-            <div className="testimonial-card">
-              <div className="testimonial-rating">★★★★★</div>
-              <p className="testimonial-text">&ldquo;Marfinetz Plumbing saved us thousands in unnecessary repairs. Their sewer camera inspection identified the exact location of our problem, and they fixed it the same day.&rdquo;</p>
-              <div className="testimonial-author">
-                <p className="author-name">John D.</p>
-                <p className="author-location">Erie, PA</p>
-              </div>
-            </div>
-            
-            {/* Testimonial 2 */}
-            <div className="testimonial-card">
-              <div className="testimonial-rating">★★★★★</div>
-              <p className="testimonial-text">&ldquo;Fast response time and professional service. They used their camera to find a toy my child flushed down the toilet and retrieved it without damaging our pipes.&rdquo;</p>
-              <div className="testimonial-author">
-                <p className="author-name">Sarah M.</p>
-                <p className="author-location">Lake City, PA</p>
-              </div>
-            </div>
-            
-            {/* Testimonial 3 */}
-            <div className="testimonial-card">
-              <div className="testimonial-rating">★★★★★</div>
-              <p className="testimonial-text">&ldquo;Even though I&apos;m in Ohio, Marfinetz Plumbing came out quickly when I had a sewer backup. Their camera inspection found tree roots, and they cleared them completely.&rdquo;</p>
-              <div className="testimonial-author">
-                <p className="author-name">Robert T.</p>
-                <p className="author-location">Conneaut, OH</p>
-              </div>
-            </div>
-          </div>
-          <div className="testimonials-cta">
-            <a href="/reviews" className="btn btn-secondary">Read More Reviews</a>
-          </div>
+          <GoogleReviews count={3} />
         </div>
       </section>
 
@@ -208,7 +177,7 @@ export default function Home() {
         <div className="container">
           <div className="cta-content">
             <h2>Need Sewer Line Inspection or Plumbing Services?</h2>
-            <p>Contact Marfinetz Plumbing today for fast, reliable service across Erie County, Lake City, and Conneaut.</p>
+            <p>Contact Marfinetz Plumbing today for fast, reliable service across Erie County, Crawford County, and Conneaut OH.</p>
             <div className="cta-buttons">
               <a href="tel:8142736315" className="btn btn-primary">Call (814) 273-6315</a>
               <a href="/contact" className="btn btn-secondary">Request Service Online</a>

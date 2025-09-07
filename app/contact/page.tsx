@@ -56,7 +56,7 @@ export default function ContactPage() {
               <div className="emergency-banner">
                 🚨 <strong>Emergency? Call NOW:</strong> <a href="tel:814-273-6315" style={{ color: '#ffff00', fontSize: '16px' }}>(814) 273-6315</a> 🚨
                 <br />
-                <small>Available 24/7 in Erie County, Lake City, and Conneaut</small>
+                <small>Available 24/7 in Erie County, Crawford County, and Conneaut OH</small>
               </div>
               
               <div className="form-message" id="form-message" style={{ display: 'none' }}></div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
               </div>
               
               <p style={{ textAlign: 'center', marginTop: '20px', color: '#333', fontSize: '12px' }}>
-                <strong>Service Areas:</strong> Erie County, Lake City, and Conneaut<br />
+                <strong>Service Areas:</strong> Erie County, Crawford County, and Conneaut OH<br />
                 Or call us directly at <a href="tel:814-273-6315" style={{ color: '#0000FF', fontWeight: 'bold' }}>(814) 273-6315</a>
               </p>
             </form>

@@ -29,8 +29,8 @@ export default function Footer() {
           <div className="footer-areas">
             <h3>Service Areas</h3>
             <ul>
-              <li><Link href="/service-areas/lake-city-pa">Lake City, PA</Link></li>
-              <li><Link href="/service-areas/erie-pa">Erie, PA</Link></li>
+              <li><Link href="/service-areas/erie-pa">Erie County, PA</Link></li>
+              <li><Link href="/service-areas/crawford-pa">Crawford County, PA</Link></li>
               <li><Link href="/service-areas/conneaut-oh">Conneaut, OH</Link></li>
             </ul>
           </div>

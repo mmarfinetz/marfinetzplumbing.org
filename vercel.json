@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "buildCommand": "npm run build-for-vercel",
-  "outputDirectory": "public",
+  "buildCommand": "npm run build",
+  "env": {
+    "USE_STATIC_EXPORT": "false"
+  },
   "routes": [
-    { "src": "/$", "dest": "/index.html" },
-    { "src": "/calculator", "dest": "/calculator/" },
     { "handle": "filesystem" }
   ]
-} 
+}

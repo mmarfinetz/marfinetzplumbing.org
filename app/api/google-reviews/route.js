@@ -15,42 +15,12 @@ export async function GET() {
     
     let response;
     
-    // If no API key is set, return sample data for development
+    // If no API key is set, return an error instead of mock data
     if (!apiKey) {
-      console.warn("No Google Places API key found. Using sample data.");
-      response = {
-        result: {
-          name: "Marfinetz Plumbing",
-          rating: 5.0,
-          url: "https://g.page/r/CaM5Z6DIV3MTEAE/review",
-          reviews: [
-            {
-              author_name: "John Doe",
-              profile_photo_url: "",
-              rating: 5,
-              relative_time_description: "a month ago",
-              text: "Great service! Fixed my plumbing issue quickly and professionally.",
-              time: Math.floor(Date.now() / 1000) - 2592000 // approx 30 days ago
-            },
-            {
-              author_name: "Jane Smith",
-              profile_photo_url: "",
-              rating: 5,
-              relative_time_description: "3 months ago",
-              text: "Marfinetz Plumbing did an excellent job on our bathroom renovation. Highly recommend!",
-              time: Math.floor(Date.now() / 1000) - 7776000 // approx 90 days ago
-            },
-            {
-              author_name: "Bob Johnson",
-              profile_photo_url: "",
-              rating: 4,
-              relative_time_description: "6 months ago", 
-              text: "Marfinetz Plumbing did good work at a fair price. Would use again for future projects.",
-              time: Math.floor(Date.now() / 1000) - 15552000 // approx 180 days ago
-            }
-          ]
-        }
-      };
+      return NextResponse.json({ 
+        error: 'GOOGLE_PLACES_API_KEY not set',
+        message: 'Server is configured to use live Google reviews only.'
+      }, { status: 500 });
     } else {
       // Fetch real data from Google Places API
       const res = await fetch(url, {
