@@ -1,10 +1,8 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
+  "outputDirectory": "out",
   "env": {
     "USE_STATIC_EXPORT": "true"
-  },
-  "routes": [
-    { "handle": "filesystem" }
-  ]
+  }
 }
