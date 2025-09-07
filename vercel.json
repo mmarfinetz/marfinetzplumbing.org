@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build",
   "env": {
-    "USE_STATIC_EXPORT": "false"
+    "USE_STATIC_EXPORT": "true"
   },
   "routes": [
     { "handle": "filesystem" }
