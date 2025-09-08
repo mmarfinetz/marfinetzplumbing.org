@@ -22,6 +22,10 @@ const nextConfig = isDev || !useStaticExport ? {
   // Ensure we can still use the calculator route
   basePath: '',
   trailingSlash: true,
+  // Skip API routes during static export
+  async generateStaticParams() {
+    return [];
+  },
   env: {
     BUILD_ID: new Date().getTime().toString(),  // Force new build each time
     IS_NEXT_APP: 'true',

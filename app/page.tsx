@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageWithFallback from '@/components/ui/ImageWithFallback';
-import GoogleReviews from './components/GoogleReviews';
+// Removed live Google Reviews widget – not our business
 
 export default function Home() {
   return (
@@ -161,16 +161,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section (Live Google Reviews) */}
-      <section className="testimonials">
-        <div className="container">
-          <div className="section-header">
-            <h2>What Our Customers Say</h2>
-            <p>Live Google reviews from our customers</p>
-          </div>
-          <GoogleReviews count={3} />
-        </div>
-      </section>
+      {/* Testimonials section intentionally removed: Google reviews not shown */}
 
       {/* Call to Action Section */}
       <section className="cta-section">

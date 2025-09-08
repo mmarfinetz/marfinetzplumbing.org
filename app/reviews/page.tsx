@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import GoogleReviews from '../components/GoogleReviews';
+// Live Google Reviews removed – not our business
 
 export const metadata: Metadata = {
   title: 'Customer Reviews | Marfinetz Plumbing | Erie County, PA',
@@ -22,16 +22,7 @@ export default function ReviewsPage() {
         </div>
       </section>
 
-      {/* Live Google Reviews */}
-      <section className="live-reviews">
-        <div className="container">
-          <div className="section-header">
-            <h2>Live Google Reviews</h2>
-            <p>Real feedback from our customers</p>
-          </div>
-          <GoogleReviews count={6} />
-        </div>
-      </section>
+      {/* Live Google Reviews removed intentionally */}
 
       {/* Featured Testimonials */}
       <section className="testimonials">
@@ -100,7 +91,7 @@ export default function ReviewsPage() {
             <h2>Leave Us a Review</h2>
             <p>Share your experience with Marfinetz Plumbing and help other customers find quality plumbing services.</p>
             <div className="review-buttons">
-              <a href="https://g.page/r/CaM5Z6DIV3MTEAE/review" target="_blank" rel="noopener" className="btn btn-primary">Write Google Review</a>
+              <a href="/contact" className="btn btn-primary">Share Feedback</a>
               <a href="/contact" className="btn btn-secondary">Contact Us</a>
             </div>
           </div>
