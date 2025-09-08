@@ -560,6 +560,37 @@ section {
   margin-bottom: 3rem;
 }
 
+/* Contact Page Specific Styling */
+.contact-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0f0f1e;
+  z-index: 9997;
+  overflow: hidden;
+}
+
+.contact-page .modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0f0f1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 /* Make footer occupy entire bottom area height visually on contact page */
 .contact-page ~ .footer,
 .footer.full-width {

@@ -44,12 +44,16 @@ body {
 
 /* Contact page layout utilities */
 .contact-page .modal-backdrop {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 360px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+  background: #0f0f1e;
   justify-content: center;
 }
 
