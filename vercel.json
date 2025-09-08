@@ -2,5 +2,10 @@
   "version": 2,
   "env": {
     "USE_STATIC_EXPORT": "false"
+  },
+  "git": {
+    "deploymentEnabled": {
+      "next-production": true
+    }
   }
 }
