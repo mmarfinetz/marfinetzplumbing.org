@@ -1071,26 +1071,180 @@ body::after {
   justify-content: flex-start;
 }
 
-.contact-modal .emergency-banner {
-  background: #ff4444;
-  color: white;
-  padding: 12px;
+/* Windows Alert Dialog Styles */
+.windows-alert-banner {
   margin-bottom: 15px;
+  position: relative;
+}
+
+.alert-window {
+  background: var(--win97-gray);
   border: 2px solid;
   border-color: var(--win97-light) var(--win97-dark) var(--win97-dark) var(--win97-light);
-  text-align: center;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  animation: alertPulse 2s infinite ease-in-out;
+}
+
+.alert-title-bar {
+  background: linear-gradient(90deg, #008080 0%, #0000ff 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--win97-dark);
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 11px;
   font-weight: bold;
+}
+
+.alert-title-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.alert-icon {
+  font-size: 14px;
+  animation: bounce 1s infinite;
+}
+
+.alert-content {
+  padding: 12px;
+  background: var(--win97-gray);
+}
+
+.alert-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.alert-icon-large {
+  flex-shrink: 0;
+  animation: shake 0.5s ease-in-out infinite alternate;
+}
+
+.alert-text {
+  flex: 1;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 11px;
+}
+
+.alert-text strong {
+  display: block;
   font-size: 12px;
-  animation: pulse 2s infinite;
+  color: #800000;
+  margin-bottom: 4px;
+  font-weight: bold;
 }
 
-.contact-modal .emergency-banner a {
-  color: #ffff00;
+.alert-text p {
+  margin: 4px 0;
+  color: #000080;
+  font-weight: bold;
+}
+
+.emergency-phone-number {
+  margin: 8px 0;
+  text-align: center;
+  background: #ffff00;
+  border: 1px solid #000000;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.emergency-phone-number a {
+  color: #ff0000;
   text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "MS Sans Serif", sans-serif;
 }
 
-.contact-modal .emergency-banner a:hover {
+.emergency-phone-number a:hover {
   text-decoration: underline;
+}
+
+.alert-text small {
+  display: block;
+  margin-top: 6px;
+  color: #000080;
+  font-style: italic;
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid var(--win97-dark);
+  padding-top: 12px;
+}
+
+.alert-button {
+  background: var(--win97-gray);
+  border: 2px solid;
+  border-color: var(--win97-light) var(--win97-dark) var(--win97-dark) var(--win97-light);
+  padding: 4px 12px;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  min-width: 75px;
+  font-weight: bold;
+}
+
+.alert-button:active {
+  border-color: var(--win97-dark) var(--win97-light) var(--win97-light) var(--win97-dark);
+  padding: 5px 11px 3px 13px;
+}
+
+.alert-button.call-now {
+  background: #ff6666;
+  color: white;
+  animation: callPulse 2s infinite;
+}
+
+.alert-button.continue {
+  background: #66ff66;
+  color: #000080;
+}
+
+/* Animations */
+@keyframes alertPulse {
+  0%, 100% { 
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  50% { 
+    box-shadow: 2px 2px 8px rgba(255, 0, 0, 0.6), 
+                0 0 20px rgba(255, 0, 0, 0.3);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(1px); }
+}
+
+@keyframes callPulse {
+  0%, 100% { 
+    background: #ff6666;
+    transform: scale(1);
+  }
+  50% { 
+    background: #ff3333;
+    transform: scale(1.05);
+  }
+}
+
+/* Minimized state */
+.windows-alert-banner.minimized {
+  display: none;
 }
 
 @keyframes pulse {
@@ -1135,9 +1289,57 @@ body::after {
     padding: 15px;
   }
   
-  .contact-modal .emergency-banner {
-    font-size: 11px;
+  /* Mobile Windows Alert Styles */
+  .windows-alert-banner {
+    margin-bottom: 12px;
+  }
+  
+  .alert-title-bar {
+    font-size: 10px;
+    padding: 2px 3px;
+  }
+  
+  .alert-content {
     padding: 10px;
+  }
+  
+  .alert-message {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .alert-icon-large img {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  .alert-text {
+    font-size: 10px;
+  }
+  
+  .alert-text strong {
+    font-size: 11px;
+  }
+  
+  .emergency-phone-number {
+    margin: 6px 0;
+    padding: 3px 6px;
+  }
+  
+  .emergency-phone-number a {
+    font-size: 13px;
+  }
+  
+  .alert-buttons {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .alert-button {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 10px;
   }
   
   .contact-modal .form-buttons {

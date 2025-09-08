@@ -53,10 +53,36 @@ export default function ContactPage() {
             <form id="lead-capture-form">
               <h3 style={{ marginTop: 0, marginBottom: '15px' }}>Get Your Plumbing Problem Fixed Today!</h3>
               
-              <div className="emergency-banner">
-                🚨 <strong>Emergency? Call NOW:</strong> <a href="tel:814-273-6315" style={{ color: '#ffff00', fontSize: '16px' }}>(814) 273-6315</a> 🚨
-                <br />
-                <small>Available 24/7 in Erie County, Crawford County, and Conneaut OH</small>
+              <div className="windows-alert-banner">
+                <div className="alert-window">
+                  <div className="alert-title-bar">
+                    <div className="alert-title-text">🚨 Emergency Alert</div>
+                    <div className="alert-icon">⚠️</div>
+                  </div>
+                  <div className="alert-content">
+                    <div className="alert-message">
+                      <div className="alert-icon-large">
+                        <img src="/img/w98_msg_warning.png" alt="Warning" style={{ width: '32px', height: '32px' }} />
+                      </div>
+                      <div className="alert-text">
+                        <strong>EMERGENCY PLUMBING SERVICES</strong>
+                        <p>Need immediate help? Call us NOW!</p>
+                        <div className="emergency-phone-number">
+                          <a href="tel:814-273-6315">(814) 273-6315</a>
+                        </div>
+                        <small>Available 24/7 in Erie County, Crawford County, and Conneaut OH</small>
+                      </div>
+                    </div>
+                    <div className="alert-buttons">
+                      <button type="button" className="alert-button call-now" onClick={() => window.location.href='tel:814-273-6315'}>
+                        📞 Call Now
+                      </button>
+                      <button type="button" className="alert-button continue" onClick={() => document.querySelector('.windows-alert-banner')?.classList.add('minimized')}>
+                        📝 Fill Form
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <div className="form-message" id="form-message" style={{ display: 'none' }}></div>
