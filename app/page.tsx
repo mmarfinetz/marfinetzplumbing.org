@@ -1,5 +1,6 @@
 import React from 'react';
 import ImageWithFallback from '@/components/ui/ImageWithFallback';
+import { Wrench, Shield, Clock, CheckCircle } from 'lucide-react';
 // Removed live Google Reviews widget – not our business
 
 export default function Home() {
@@ -17,8 +18,86 @@ export default function Home() {
               <a href="/contact" className="btn btn-secondary">Request Service</a>
             </div>
           </div>
-          <div className="hero-image">
-            <img src="/img/with-padding-1.png" alt="Sewer camera inspection" />
+          <div className="hero-image" style={{
+            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%)',
+            borderRadius: '16px',
+            padding: '3rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              position: 'absolute',
+              top: '-50%',
+              right: '-50%',
+              width: '200%',
+              height: '200%',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+              animation: 'rotate 30s linear infinite'
+            }} />
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '2rem',
+              position: 'relative',
+              zIndex: 1
+            }}>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center'
+              }}>
+                <Shield className="w-12 h-12 text-white mb-2" style={{ width: '48px', height: '48px' }} />
+                <span style={{ color: 'white', fontWeight: 'bold' }}>Licensed & Insured</span>
+              </div>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center'
+              }}>
+                <Clock className="w-12 h-12 text-white mb-2" style={{ width: '48px', height: '48px' }} />
+                <span style={{ color: 'white', fontWeight: 'bold' }}>24/7 Service</span>
+              </div>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center'
+              }}>
+                <Wrench className="w-12 h-12 text-white mb-2" style={{ width: '48px', height: '48px' }} />
+                <span style={{ color: 'white', fontWeight: 'bold' }}>Expert Technicians</span>
+              </div>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center'
+              }}>
+                <CheckCircle className="w-12 h-12 text-white mb-2" style={{ width: '48px', height: '48px' }} />
+                <span style={{ color: 'white', fontWeight: 'bold' }}>Satisfaction Guaranteed</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
