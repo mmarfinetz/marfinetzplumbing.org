@@ -31,7 +31,7 @@ export default function Header() {
                   src="/img/noBgBlack.png" 
                   alt="Marfinetz Plumbing Logo" 
                   style={{
-                    height: '70px',
+                    height: '90px',
                     width: 'auto',
                     display: 'block',
                     objectFit: 'contain'
