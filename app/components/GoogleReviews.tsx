@@ -17,45 +17,7 @@ type GoogleResult = {
   reviews?: GoogleReview[];
 };
 
-// Static fallback reviews for when API is unavailable
-const fallbackReviews: GoogleReview[] = [
-  {
-    author_name: "John D.",
-    rating: 5,
-    relative_time_description: "2 weeks ago",
-    text: "Excellent service! Fixed my leaky faucet quickly and professionally. Would recommend to anyone needing plumbing work done."
-  },
-  {
-    author_name: "Sarah M.",
-    rating: 5,
-    relative_time_description: "1 month ago",
-    text: "Marfinetz Plumbing installed a new bathroom vanity for us. The work was done perfectly and they cleaned up everything afterward. Very satisfied!"
-  },
-  {
-    author_name: "Robert T.",
-    rating: 4,
-    relative_time_description: "3 weeks ago",
-    text: "Needed emergency plumbing repair and they responded quickly. Fair pricing and good workmanship. Would use again."
-  },
-  {
-    author_name: "Lisa K.",
-    rating: 5,
-    relative_time_description: "1 month ago",
-    text: "The sewer camera inspection was exactly what we needed before buying our house. Professional service and detailed report."
-  },
-  {
-    author_name: "Mike W.",
-    rating: 5,
-    relative_time_description: "2 months ago",
-    text: "Fast response for our drain cleaning emergency. They had the right equipment and got the job done quickly."
-  },
-  {
-    author_name: "Jennifer L.",
-    rating: 5,
-    relative_time_description: "6 weeks ago",
-    text: "Honest, fair pricing and quality work. They explained everything clearly and completed the job on schedule."
-  }
-];
+// No fallback reviews - we want real Google reviews only
 
 function Stars({ rating = 0 }: { rating?: number }) {
   const r = Math.max(0, Math.min(5, Math.round(rating)));
@@ -88,7 +50,6 @@ export default function GoogleReviews({ count = 3 }: { count?: number }) {
   useEffect(() => {
     const fetchGoogleReviews = async () => {
       try {
-        // Try to fetch from our API route first (works in development)
         const response = await fetch('/api/google-reviews', {
           method: 'GET',
           headers: {
@@ -104,15 +65,24 @@ export default function GoogleReviews({ count = 3 }: { count?: number }) {
             return;
           }
         }
-      } catch (error) {
-        console.log('API route not available, using fallback reviews');
-      }
-      
-      // Fallback to static reviews if API is not available (production static export)
-      setTimeout(() => {
-        setReviews(fallbackReviews);
+        
+        // If API returns an error, show error state
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Google Reviews API error:', errorData);
+          setError(true);
+          setLoading(false);
+          return;
+        }
+        
+        // If no reviews found
+        setError(true);
         setLoading(false);
-      }, 500);
+      } catch (error) {
+        console.error('Failed to fetch Google reviews:', error);
+        setError(true);
+        setLoading(false);
+      }
     };
 
     fetchGoogleReviews();
@@ -128,15 +98,30 @@ export default function GoogleReviews({ count = 3 }: { count?: number }) {
 
   if (error || reviews.length === 0) {
     return (
-      <div>
-        <p>Unable to load live Google reviews right now.</p>
-        <p>
+      <div className="reviews-error" style={{ textAlign: 'center', padding: '20px' }}>
+        <p style={{ marginBottom: '10px', color: '#666' }}>
+          Google reviews are temporarily unavailable.
+        </p>
+        <p style={{ marginBottom: '15px' }}>
           Please visit our{' '}
-          <a href="https://g.page/r/CaM5Z6DIV3MTEAE/review" target="_blank" rel="noopener">
+          <a 
+            href="https://g.page/r/CaM5Z6DIV3MTEAE/review" 
+            target="_blank" 
+            rel="noopener"
+            style={{ color: '#007cba', textDecoration: 'underline' }}
+          >
             Google Business Profile
           </a>{' '}
-          to read and write reviews.
+          to read our customer reviews.
         </p>
+        <a 
+          href="https://g.page/r/CaM5Z6DIV3MTEAE/review" 
+          className="btn btn-outline" 
+          target="_blank" 
+          rel="noopener"
+        >
+          Write a Review
+        </a>
       </div>
     );
   }
