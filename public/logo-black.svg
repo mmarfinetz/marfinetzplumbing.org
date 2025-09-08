@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <!-- Faucet Icon -->
+  <g transform="translate(400, 80)">
+    <!-- Handle -->
+    <rect x="-80" y="0" width="160" height="30" rx="15" fill="#000000"/>
+    <circle cx="0" cy="15" r="25" fill="#000000"/>
+    
+    <!-- Faucet spout -->
+    <path d="M -50 30 L -50 80 Q -50 100 -30 100 L 40 100 L 40 70 L 70 70 L 70 110 L 40 110 L -30 110 Q -70 110 -70 80 L -70 30 Z" fill="#000000"/>
+    
+    <!-- Base plate -->
+    <rect x="-40" y="110" width="80" height="20" fill="#000000"/>
+    
+    <!-- Water drop -->
+    <path d="M 0 145 Q -20 165 0 185 Q 20 165 0 145 Z" fill="#000000"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="400" y="320" font-family="Arial Black, sans-serif" font-size="72" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="2">
+    MARFINETZ PLUMBING
+  </text>
+  <text x="400" y="380" font-family="Arial Black, sans-serif" font-size="48" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="3">
+    CO.
+  </text>
+</svg>

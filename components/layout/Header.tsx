@@ -21,9 +21,21 @@ export default function Header() {
         </div>
         <nav className="main-nav">
           <div className="container">
-            <div className="logo">
-              <Link href="/">
-                <img src="/logo.svg" alt="Marfinetz Plumbing Logo" />
+            <div className="logo" style={{
+              padding: '0.5rem 0'
+            }}>
+              <Link href="/" style={{
+                display: 'inline-block'
+              }}>
+                <img 
+                  src="/logo-black.svg" 
+                  alt="Marfinetz Plumbing Logo" 
+                  style={{
+                    height: '60px',
+                    width: 'auto',
+                    display: 'block'
+                  }}
+                />
               </Link>
             </div>
             <ul className="nav-links">
