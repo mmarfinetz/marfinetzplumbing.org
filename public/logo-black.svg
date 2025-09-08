@@ -1,25 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
-  <!-- Faucet Icon -->
-  <g transform="translate(400, 80)">
-    <!-- Handle -->
-    <rect x="-80" y="0" width="160" height="30" rx="15" fill="#000000"/>
-    <circle cx="0" cy="15" r="25" fill="#000000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" fill="#000000">
+  <!-- Faucet Icon Group -->
+  <g transform="translate(350, 50)">
+    <!-- Faucet Handle (horizontal bar with knob) -->
+    <rect x="-100" y="20" width="200" height="40" rx="20" fill="#000000"/>
+    <circle cx="0" cy="40" r="30" fill="#000000"/>
     
-    <!-- Faucet spout -->
-    <path d="M -50 30 L -50 80 Q -50 100 -30 100 L 40 100 L 40 70 L 70 70 L 70 110 L 40 110 L -30 110 Q -70 110 -70 80 L -70 30 Z" fill="#000000"/>
+    <!-- Faucet Body -->
+    <path d="M -60 70 L -60 140 Q -60 170 -30 170 L 60 170 L 60 170 L 90 170 L 90 120 L 120 120 L 120 190 L 90 190 L 90 190 L -30 190 Q -80 190 -80 140 L -80 70 Z" fill="#000000"/>
     
-    <!-- Base plate -->
-    <rect x="-40" y="110" width="80" height="20" fill="#000000"/>
+    <!-- Base/Mount -->
+    <rect x="-50" y="190" width="100" height="25" fill="#000000"/>
     
-    <!-- Water drop -->
-    <path d="M 0 145 Q -20 165 0 185 Q 20 165 0 145 Z" fill="#000000"/>
+    <!-- Water Drop -->
+    <ellipse cx="0" cy="245" rx="18" ry="25" fill="#000000"/>
+    <path d="M 0 215 Q -18 230 0 270 Q 18 230 0 215 Z" fill="#000000"/>
   </g>
   
-  <!-- Company Name -->
-  <text x="400" y="320" font-family="Arial Black, sans-serif" font-size="72" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="2">
+  <!-- Company Name Text -->
+  <text x="350" y="360" font-family="Arial Black, Helvetica, sans-serif" font-size="80" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="-2">
     MARFINETZ PLUMBING
   </text>
-  <text x="400" y="380" font-family="Arial Black, sans-serif" font-size="48" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="3">
+  
+  <!-- CO. Text -->
+  <text x="350" y="410" font-family="Arial Black, Helvetica, sans-serif" font-size="55" font-weight="900" text-anchor="middle" fill="#000000" letter-spacing="8">
     CO.
   </text>
 </svg>
