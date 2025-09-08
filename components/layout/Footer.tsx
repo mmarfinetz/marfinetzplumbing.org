@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-about">
 
-            <img src="/logo.svg" alt="Marfinetz Plumbing Logo" className="footer-logo" />
+            <img src="/img/noBgBlack.png" alt="Marfinetz Plumbing Logo" className="footer-logo" />
             <p>Professional plumbing services including sewer camera inspection, drain cleaning, and emergency repairs across Pennsylvania and Ohio.</p>
             <div className="footer-contact">
               <p><strong>Phone:</strong> <a href="tel:8142736315">(814) 273-6315</a></p>

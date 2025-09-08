@@ -28,7 +28,7 @@ export default function Header() {
                 display: 'inline-block'
               }}>
                 <img 
-                  src="/logo-black.svg" 
+                  src="/img/noBgBlack.png" 
                   alt="Marfinetz Plumbing Logo" 
                   style={{
                     height: '70px',
