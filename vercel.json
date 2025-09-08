@@ -1,7 +1,7 @@
 {
   "version": 2,
   "env": {
-    "USE_STATIC_EXPORT": "false"
+    "USE_STATIC_EXPORT": "true"
   },
   "git": {
     "deploymentEnabled": {
