@@ -2,8 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build",
   "env": {
-    "USE_STATIC_EXPORT": "false",
-    "GOOGLE_PLACES_API_KEY": "@google-places-api-key"
+    "USE_STATIC_EXPORT": "false"
   },
   "functions": {
     "app/api/google-reviews/route.js": {
