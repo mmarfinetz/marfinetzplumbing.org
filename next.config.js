@@ -42,6 +42,10 @@ const nextConfig = isDev || !useStaticExport ? {
     maxInactiveAge: 60 * 1000, // 1 minute
     pagesBufferLength: 1,
   },
+  // Copy CNAME file to output
+  async generateBuildId() {
+    return 'build-' + Date.now();
+  },
 }
 
 module.exports = nextConfig 
