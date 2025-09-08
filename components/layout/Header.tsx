@@ -31,9 +31,10 @@ export default function Header() {
                   src="/logo-black.svg" 
                   alt="Marfinetz Plumbing Logo" 
                   style={{
-                    height: '60px',
+                    height: '70px',
                     width: 'auto',
-                    display: 'block'
+                    display: 'block',
+                    objectFit: 'contain'
                   }}
                 />
               </Link>
