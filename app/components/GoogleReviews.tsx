@@ -86,12 +86,36 @@ export default function GoogleReviews({ count = 3 }: { count?: number }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // For static builds, we'll use fallback reviews
-    // In the future, this could be enhanced with a third-party service
-    setTimeout(() => {
-      setReviews(fallbackReviews);
-      setLoading(false);
-    }, 500); // Small delay to simulate loading
+    const fetchGoogleReviews = async () => {
+      try {
+        // Try to fetch from our API route first (works in development)
+        const response = await fetch('/api/google-reviews', {
+          method: 'GET',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.result && data.result.reviews && data.result.reviews.length > 0) {
+            setReviews(data.result.reviews);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (error) {
+        console.log('API route not available, using fallback reviews');
+      }
+      
+      // Fallback to static reviews if API is not available (production static export)
+      setTimeout(() => {
+        setReviews(fallbackReviews);
+        setLoading(false);
+      }, 500);
+    };
+
+    fetchGoogleReviews();
   }, []);
 
   if (loading) {
