@@ -49,6 +49,7 @@ body {
   height: calc(100vh - 360px);
   display: flex;
   align-items: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
   justify-content: center;
 }
 
