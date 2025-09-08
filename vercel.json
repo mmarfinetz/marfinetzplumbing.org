@@ -3,10 +3,5 @@
   "buildCommand": "npm run build",
   "env": {
     "USE_STATIC_EXPORT": "false"
-  },
-  "functions": {
-    "app/api/google-reviews/route.js": {
-      "maxDuration": 10
-    }
   }
 }
