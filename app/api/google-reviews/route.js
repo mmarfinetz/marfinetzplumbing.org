@@ -10,7 +10,7 @@ export async function GET() {
     const placeId = 'ChIJ5SN41h5KzYkRo5dnBsiFcxM'; // Marfinetz Plumbing place ID
     const apiKey = process.env.GOOGLE_PLACES_API_KEY;
     
-    // URL to fetch reviews through Google Places API
+    // URL to fetch reviews through Google Places API (legacy) with server referrer
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews,url&key=${apiKey}`;
     
     let response;
@@ -22,18 +22,28 @@ export async function GET() {
         message: 'Server is configured to use live Google reviews only.'
       }, { status: 500 });
     } else {
-      // Fetch real data from Google Places API
+      // Fetch real data from Google Places API with proper headers
       const res = await fetch(url, {
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Referer': 'https://marfinetzplumbing.org',
+          'User-Agent': 'Marfinetz-Plumbing-Website/1.0'
         },
         next: { revalidate: 3600 } // Cache for 1 hour
       });
       
       if (!res.ok) {
-        throw new Error(`Google Places API responded with status: ${res.status}`);
+        const errorText = await res.text();
+        console.error('Google Places API Error:', res.status, errorText);
+        throw new Error(`Google Places API responded with status: ${res.status} - ${errorText}`);
       }
       response = await res.json();
+      
+      // Check if the response has an error
+      if (response.status === 'REQUEST_DENIED') {
+        console.error('Google Places API Request Denied:', response.error_message);
+        throw new Error(`Google Places API: ${response.error_message}`);
+      }
     }
     
     return NextResponse.json(response);
