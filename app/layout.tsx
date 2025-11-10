@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
+import PhoneClickTracking from '../components/PhoneClickTracking'
 
 export const metadata: Metadata = {
   title: 'Marfinetz Plumbing | Sewer Camera Inspection & Plumbing Services | Erie County, PA',
@@ -23,8 +24,22 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/css/win97.css" />
         <link rel="stylesheet" href="/css/mobile.css" />
+
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17046907044"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17046907044');
+            `,
+          }}
+        />
       </head>
       <body>
+        <PhoneClickTracking />
         <Header />
         {children}
         <Footer />
