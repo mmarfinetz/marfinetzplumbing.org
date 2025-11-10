@@ -271,7 +271,33 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Submit to lead tracking API (which handles email notifications)
           const result = await submitWithRetry(trackingData);
-          
+
+          // Track successful form submission with Google Tag
+          if (typeof window.gtag !== 'undefined') {
+            // Track form submission event
+            window.gtag('event', 'form_submission', {
+              event_category: 'lead_generation',
+              event_label: 'contact_form',
+              urgency: leadData.urgency || 'not_specified',
+              property_type: leadData.property_type || 'not_specified',
+              preferred_contact: leadData.preferred_contact || 'phone',
+              value: 1
+            });
+
+            // Track as conversion for Google Ads
+            window.gtag('event', 'conversion', {
+              send_to: 'AW-17046907044/conversion_label', // Update with actual conversion label from Google Ads
+              value: 1.0,
+              currency: 'USD',
+              transaction_id: result.trackingId || Date.now().toString()
+            });
+
+            log('INFO', 'Form submission tracked in Google Analytics', {
+              urgency: leadData.urgency,
+              property_type: leadData.property_type
+            });
+          }
+
           // Determine response time based on urgency
           const responseTime = leadData.urgency === 'emergency' ? '15 minutes' : 
                              leadData.urgency === 'same_day' ? '2 hours' : '24 hours';
