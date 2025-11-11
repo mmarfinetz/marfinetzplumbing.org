@@ -25,14 +25,16 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/win97.css" />
         <link rel="stylesheet" href="/css/mobile.css" />
 
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17046907044"></script>
+        {/* Google tag (gtag.js) - Analytics & Ads */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B119JLJHDF"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+
+              gtag('config', 'G-B119JLJHDF');
               gtag('config', 'AW-17046907044');
             `,
           }}
