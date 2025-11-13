@@ -5,9 +5,29 @@ import Footer from '../components/layout/Footer'
 import PhoneClickTracking from '../components/PhoneClickTracking'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://marfinetzplumbing.org'),
   title: 'Marfinetz Plumbing | Sewer Camera Inspection & Plumbing Services | Erie County, PA',
   description: 'Professional sewer camera inspection and plumbing services in Erie County, Crawford County PA, and Conneaut OH. 24/7 emergency service available. Call (814) 273-6315.',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
+  keywords: 'plumber Erie PA, sewer camera inspection, drain cleaning, emergency plumbing, Crawford County plumber, Conneaut OH plumbing',
+  openGraph: {
+    title: 'Marfinetz Plumbing | Sewer Camera Inspection & Plumbing Services',
+    description: 'Professional sewer camera inspection and plumbing services in Erie County, Crawford County PA, and Conneaut OH. 24/7 emergency service available.',
+    url: 'https://marfinetzplumbing.org',
+    siteName: 'Marfinetz Plumbing',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Marfinetz Plumbing | Professional Plumbing Services',
+    description: '24/7 emergency plumbing and sewer camera inspection in Erie County, Crawford County PA, and Conneaut OH.',
+  },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
@@ -37,6 +57,94 @@ export default function RootLayout({
               gtag('config', 'G-B119JLJHDF');
               gtag('config', 'AW-17046907044');
             `,
+          }}
+        />
+
+        {/* Structured Data - Local Business Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Plumber',
+              name: 'Marfinetz Plumbing',
+              description: 'Professional sewer camera inspection and plumbing services in Erie County, Crawford County PA, and Conneaut OH.',
+              url: 'https://marfinetzplumbing.org',
+              telephone: '+18142736315',
+              priceRange: '$$',
+              image: 'https://marfinetzplumbing.org/logo.svg',
+              address: {
+                '@type': 'PostalAddress',
+                addressRegion: 'PA',
+                addressCountry: 'US',
+              },
+              areaServed: [
+                {
+                  '@type': 'City',
+                  name: 'Erie',
+                  '@id': 'https://en.wikipedia.org/wiki/Erie,_Pennsylvania',
+                },
+                {
+                  '@type': 'AdministrativeArea',
+                  name: 'Erie County',
+                  containedIn: 'Pennsylvania',
+                },
+                {
+                  '@type': 'AdministrativeArea',
+                  name: 'Crawford County',
+                  containedIn: 'Pennsylvania',
+                },
+                {
+                  '@type': 'City',
+                  name: 'Conneaut',
+                  '@id': 'https://en.wikipedia.org/wiki/Conneaut,_Ohio',
+                },
+              ],
+              openingHoursSpecification: {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: [
+                  'Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday',
+                ],
+                opens: '00:00',
+                closes: '23:59',
+              },
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Plumbing Services',
+                itemListElement: [
+                  {
+                    '@type': 'Offer',
+                    itemOffered: {
+                      '@type': 'Service',
+                      name: 'Sewer Camera Inspection',
+                      description: 'Professional sewer line video inspection services',
+                    },
+                  },
+                  {
+                    '@type': 'Offer',
+                    itemOffered: {
+                      '@type': 'Service',
+                      name: 'Emergency Plumbing',
+                      description: '24/7 emergency plumbing services',
+                    },
+                  },
+                  {
+                    '@type': 'Offer',
+                    itemOffered: {
+                      '@type': 'Service',
+                      name: 'Drain Cleaning',
+                      description: 'Professional drain cleaning and snaking services',
+                    },
+                  },
+                ],
+              },
+            }),
           }}
         />
       </head>
