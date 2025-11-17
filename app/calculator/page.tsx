@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import '@/css/win97.css'
 import { useState, useEffect } from 'react'
 
-const RevenueCalculator = dynamic(() => import('@/components/RevenueCalculator'), {
+const RevenueCalculator = dynamic(() => import('@/app/components/RevenueCalculator'), {
   ssr: false,
 })
 
