@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sonde Locator</title>
+<style>
+:root{--bg:#10151c;--panel:#1a222d;--ink:#e8edf3;--mute:#8fa0b3;--acc:#3ddc97;--warn:#ffb454;--bad:#ff6b6b;--line:#2a3544}
+@media (prefers-color-scheme:light){:root{--bg:#f3f6f9;--panel:#fff;--ink:#14202c;--mute:#5a6b7d;--acc:#0a9d63;--warn:#b86e00;--bad:#c62828;--line:#d6dee7}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,sans-serif;padding:16px;max-width:900px;margin-inline:auto}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:0 0 10px}
+.sub{color:var(--mute);margin:0 0 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button,select,input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+button{cursor:pointer}button.pri{background:var(--acc);color:#04170e;border-color:var(--acc);font-weight:600}
+button:disabled{opacity:.45;cursor:default}
+canvas{width:100%;height:180px;display:block;background:var(--bg);border-radius:8px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:500;font-size:13px}tr.lock td{color:var(--acc);font-weight:600}tr.sel{cursor:pointer}
+.big{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}.mute{color:var(--mute)}
+.meter{height:18px;background:var(--bg);border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+.meter>div{height:100%;width:0;background:var(--acc);transition:width .08s}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.grid{grid-template-columns:1fr}}
+label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--mute)}
+.note{font-size:13px;color:var(--mute)}.err{color:var(--bad)}
+</style>
+</head>
+<body>
+<h1>Sonde Locator</h1>
+<p class="sub">Scan for a push-camera sonde (the transmitter in the camera head), lock its frequency, and estimate how deep it is. Feed a pickup coil or locator audio output into the line-in/mic jack.</p>
+
+<div class="card">
+  <h2>1 · Input</h2>
+  <div class="row">
+    <select id="dev"><option value="">Default input</option></select>
+    <button id="start" class="pri">Start scan</button>
+    <button id="stop" disabled>Stop</button>
+    <button id="sim">Simulate sonde</button>
+    <span id="status" class="mute"></span>
+  </div>
+  <div id="simbox" class="row" style="margin-top:10px;display:none">
+    <label>Sim frequency (Hz)<select id="simf"><option>512</option><option>640</option><option>850</option><option>16000</option></select></label>
+    <label>Sim depth (ft): <span id="simdv">6.0</span><input id="simd" type="range" min="1" max="20" step="0.1" value="6"></label>
+  </div>
+</div>
+
+<div class="card">
+  <h2>2 · Frequency scan</h2>
+  <canvas id="spec" width="860" height="180"></canvas>
+  <table style="margin-top:10px"><thead><tr><th>Sonde band</th><th>Freq</th><th>SNR</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table>
+  <div class="row" style="margin-top:10px">
+    <label>Custom frequency (Hz)<input id="cust" type="number" min="20" step="1" placeholder="e.g. 480"></label>
+    <button id="addc">Add</button>
+    <span class="note">Strongest known band above threshold auto-locks; click a row to lock manually.</span>
+  </div>
+</div>
+
+<div class="grid">
+<div class="card">
+  <h2>3 · Signal strength</h2>
+  <div class="mute">Locked: <b id="lockf">—</b></div>
+  <div class="big" id="amp">—</div>
+  <div class="meter"><div id="mbar"></div></div>
+  <p class="note">Walk the receiver along the line. The <b>peak</b> (or the null between the two side-peaks of a horizontal coil, depending on your antenna) marks the point directly above the sonde.</p>
+  <div class="row"><button id="peakreset">Reset peak</button><span class="mute">Peak: <b id="peak">—</b></span></div>
+</div>
+
+<div class="card">
+  <h2>4 · Depth</h2>
+  <div class="row">
+    <label>Units<select id="units"><option value="ft">feet</option><option value="m">metres</option></select></label>
+    <label>Raise height <input id="h" type="number" value="1" min="0.1" step="0.1" style="width:90px"></label>
+  </div>
+  <p class="note" style="margin:8px 0">Stand directly above the peak. Capture a ground reading, lift the receiver by the raise height, capture again. The signal falls with distance cubed, so the ratio gives depth — no calibration needed.</p>
+  <div class="row"><button id="cap1">Capture ground</button><button id="cap2">Capture raised</button><button id="clr">Clear</button></div>
+  <div class="mute" style="margin-top:8px">Ground <b id="a1">—</b> · Raised <b id="a2">—</b></div>
+  <div class="big" id="depth">—</div>
+  <div class="note" id="depthn"></div>
+</div>
+</div>
+
+<div class="card note">
+  Estimates assume a horizontal, level sonde and a receiver held directly over it. Pipe lean, nearby metal/utilities, and signal distortion all skew depth — confirm with a calibrated locator before digging or marking utilities. Call 811 before you dig.
+</div>
+
+<script src="sonde-locator.js"></script>
+<script src="sonde-locator-ui.js"></script>
+</body>
+</html>
