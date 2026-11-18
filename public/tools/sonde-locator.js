@@ -1,49 +1,141 @@
-/* Sonde Locator DSP core (browser + node). */
+/* Sonde Locator: spectrum scanning and depth math. Runs in the browser and in Node (for tests). */
 (function (root) {
-  // Common push-camera / pipe-sonde transmit frequencies (Hz).
-  const SONDES = [
-    { name: 'Sonde 512 Hz (standard)', hz: 512 },
-    { name: 'Sonde 640 Hz', hz: 640 },
-    { name: 'Sonde 850 Hz', hz: 850 },
-    { name: 'Sonde 16 kHz', hz: 16000 },
-    { name: 'Sonde 33 kHz', hz: 33000 },
+  'use strict';
+
+  // Common push-camera / pipe sonde frequencies. lo/hi is the search window (Hz):
+  // "8 kHz", "16 kHz" and "33 kHz" sondes are often 8192 / 16384 / 32768 Hz, so the windows cover both.
+  const BANDS = [
+    { id: '512', label: '512 Hz', nominal: 512, lo: 505, hi: 519 },
+    { id: '640', label: '640 Hz', nominal: 640, lo: 632, hi: 648 },
+    { id: '850', label: '850 Hz', nominal: 850, lo: 843, hi: 857 },
+    { id: '8k', label: '8 kHz', nominal: 8192, lo: 7900, hi: 8300 },
+    { id: '16k', label: '16 kHz', nominal: 16384, lo: 15800, hi: 16600 },
+    { id: '33k', label: '33 kHz', nominal: 32768, lo: 32500, hi: 33200 },
   ];
+  const FT = 0.3048;
 
-  // Convert dB spectrum (analyser format) to linear power.
-  function dbToPower(db) { return Math.pow(10, db / 10); }
-
-  // Linear amplitude + SNR (dB) for a target frequency in a dB spectrum.
-  // Signal: power in +/-halfW bins. Noise: median per-bin power in flanking windows.
-  function measureBand(spectrumDb, sampleRate, fftSize, hz, halfW = 2) {
-    const binHz = sampleRate / fftSize;
-    const c = Math.round(hz / binHz);
-    const n = spectrumDb.length;
-    if (c - halfW - 12 < 1 || c + halfW + 12 >= n) return null;
-    let sig = 0;
-    for (let i = c - halfW; i <= c + halfW; i++) sig += dbToPower(spectrumDb[i]);
-    const flank = [];
-    for (let i = c - halfW - 12; i < c - halfW - 2; i++) flank.push(dbToPower(spectrumDb[i]));
-    for (let i = c + halfW + 3; i <= c + halfW + 12; i++) flank.push(dbToPower(spectrumDb[i]));
-    flank.sort((a, b) => a - b);
-    const noisePerBin = flank[flank.length >> 1] || 1e-20;
-    const noise = noisePerBin * (2 * halfW + 1);
-    const net = Math.max(sig - noise, 0);
-    return {
-      hz, amplitude: Math.sqrt(net), snrDb: 10 * Math.log10(sig / noise),
-    };
+  // Replace -Infinity / NaN (silent input) so the maths below stays finite.
+  function sanitize(specDb) {
+    for (let i = 0; i < specDb.length; i++) if (!(specDb[i] > -200)) specDb[i] = -200;
+    return specDb;
   }
 
-  // Dipole near-field: B ~ 1/d^3. With reading A1 at ground and A2 raised by h:
-  // A1/A2 = ((d+h)/d)^3  =>  d = h / ((A1/A2)^(1/3) - 1)
+  // Noise floor in dB for every bin: median of fixed-size blocks, interpolated between block centres.
+  // A median ignores the few bins a tone or hum harmonic occupies.
+  function noiseFloor(specDb, block = 64) {
+    const n = specDb.length, nb = Math.ceil(n / block);
+    const med = new Float32Array(nb), tmp = new Float32Array(block);
+    for (let b = 0; b < nb; b++) {
+      const s = b * block, m = Math.min(n, s + block) - s;
+      for (let i = 0; i < m; i++) tmp[i] = specDb[s + i];
+      const sorted = tmp.subarray(0, m).sort();
+      med[b] = sorted[m >> 1];
+    }
+    const out = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const p = (i - (block - 1) / 2) / block;
+      const b0 = Math.max(0, Math.min(nb - 1, Math.floor(p))), b1 = Math.min(nb - 1, b0 + 1);
+      const t = Math.max(0, Math.min(1, p - b0));
+      out[i] = med[b0] + (med[b1] - med[b0]) * t;
+    }
+    return out;
+  }
+
+  function isMains(hz, mains, tol = 2) {
+    if (!mains) return false;
+    const k = Math.round(hz / mains);
+    return k >= 1 && Math.abs(hz - k * mains) <= tol;
+  }
+
+  // Strongest peak between lo and hi Hz, with its frequency refined by parabolic interpolation.
+  // A peak must be the highest bin within ±4 bins, so side-lobes of a strong neighbour (e.g. hum) don't count.
+  // opts.mains skips power-line harmonics; opts.exclude(hz) skips anything else.
+  function findPeak(specDb, floorDb, binHz, lo, hi, opts = {}) {
+    const n = specDb.length, PROM = 4;
+    const k0 = Math.max(PROM, Math.ceil(lo / binHz)), k1 = Math.min(n - 1 - PROM, Math.floor(hi / binHz));
+    let best = null;
+    for (let k = k0; k <= k1; k++) {
+      const v = specDb[k];
+      if (!(v > specDb[k - 1] && v >= specDb[k + 1])) continue;
+      let prominent = true;
+      for (let j = 2; j <= PROM && prominent; j++) prominent = v >= specDb[k - j] && v >= specDb[k + j];
+      if (!prominent) continue;
+      const hz = k * binHz;
+      if (opts.mains && isMains(hz, opts.mains)) continue;
+      if (opts.exclude && opts.exclude(hz)) continue;
+      const snr = v - floorDb[k];
+      if (!best || snr > best.snr) best = { bin: k, snr, db: v };
+    }
+    if (!best) return null;
+    const a = specDb[best.bin - 1], b = specDb[best.bin], c = specDb[best.bin + 1];
+    const den = a - 2 * b + c;
+    const d = den < 0 ? Math.max(-0.5, Math.min(0.5, (0.5 * (a - c)) / den)) : 0;
+    best.hz = (best.bin + d) * binHz;
+    return best;
+  }
+
+  // How far power-line hum (fundamental and 3rd harmonic) stands above the floor, in dB.
+  // Strong 60 Hz is a good sign a magnetic pickup coil is connected rather than a microphone.
+  function humSnr(specDb, floorDb, binHz, mains) {
+    let best = -Infinity;
+    for (const h of [1, 3]) {
+      const p = findPeak(specDb, floorDb, binHz, mains * h - 2, mains * h + 2);
+      if (p && p.snr > best) best = p.snr;
+    }
+    return best;
+  }
+
+  // Horizontal field component (along the sonde axis) of a unit horizontal dipole, at horizontal
+  // offset x along the axis and vertical distance z. Signed: zero at the poles (x = ±z/√2).
+  function dipoleBx(x, z) {
+    const r2 = x * x + z * z, r = Math.sqrt(r2);
+    return (3 * x * x / r2 - 1) / (r2 * r);
+  }
+
+  // Directly above the sonde the field falls as 1/d³. Reading a1 at the surface, a2 after lifting
+  // the coil by h:  a1/a2 = ((d+h)/d)³  ⇒  d = h / ((a1/a2)^(1/3) − 1).
   function depthFromRatio(a1, a2, h) {
     if (!(a1 > 0) || !(a2 > 0) || !(h > 0) || a1 <= a2) return null;
     return h / (Math.cbrt(a1 / a2) - 1);
   }
 
-  // Alternative: calibrated constant k = A * d^3 measured at a known depth.
-  function depthFromCal(a, k) { return a > 0 && k > 0 ? Math.cbrt(k / a) : null; }
+  // One-sigma depth uncertainty for depthFromRatio, from the standard errors of the two readings.
+  function depthRatioSigma(a1, s1, a2, s2, h) {
+    if (!(a1 > a2) || !(a2 > 0) || !(h > 0)) return null;
+    const R = Math.cbrt(a1 / a2);
+    const sR = (R / 3) * Math.hypot(s1 / a1, s2 / a2);
+    return (h * sR) / ((R - 1) * (R - 1));
+  }
 
-  const api = { SONDES, measureBand, depthFromRatio, depthFromCal, dbToPower };
+  // The two poles (nulls with the coil pointed along the pipe) sit at ±d/√2, so d = spacing / √2.
+  function depthFromPoles(spacing) { return spacing > 0 ? spacing / Math.SQRT2 : null; }
+
+  // Calibrated: amplitude aCal measured at distance dCal ⇒ d = dCal · (aCal / a)^(1/3).
+  function depthFromCal(a, aCal, dCal) {
+    return a > 0 && aCal > 0 && dCal > 0 ? dCal * Math.cbrt(aCal / a) : null;
+  }
+
+  // Mean and standard error. nEff caps the sample count when readings are correlated.
+  function meanSe(xs, nEff) {
+    const n = xs.length;
+    if (!n) return null;
+    const mean = xs.reduce((s, v) => s + v, 0) / n;
+    const sd = n > 1 ? Math.sqrt(xs.reduce((s, v) => s + (v - mean) * (v - mean), 0) / (n - 1)) : 0;
+    return { mean, sd, se: sd / Math.sqrt(Math.max(1, Math.min(n, nEff || n))), n };
+  }
+
+  // Length (metres in) as feet-and-inches or metres.
+  function formatLen(m, units) {
+    if (!(m >= 0) || !isFinite(m)) return '—';
+    if (units === 'm') return m.toFixed(m < 10 ? 2 : 1) + ' m';
+    const inches = Math.round((m / FT) * 12), ft = Math.floor(inches / 12);
+    return ft ? `${ft}′ ${inches - ft * 12}″` : `${inches}″`;
+  }
+
+  const api = {
+    BANDS, FT, sanitize, noiseFloor, isMains, findPeak, humSnr, dipoleBx,
+    depthFromRatio, depthRatioSigma, depthFromPoles, depthFromCal, meanSe, formatLen,
+  };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.SondeDSP = api;
 })(typeof self !== 'undefined' ? self : this);

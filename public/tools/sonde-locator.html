@@ -2,87 +2,268 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sonde Locator</title>
+<meta name="description" content="Find a sewer-camera sonde's frequency and depth with an iPhone and a pickup coil.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sonde Locator">
+<meta name="theme-color" content="#0f1419">
+<link rel="apple-touch-icon" href="sonde-icon.png">
 <style>
-:root{--bg:#10151c;--panel:#1a222d;--ink:#e8edf3;--mute:#8fa0b3;--acc:#3ddc97;--warn:#ffb454;--bad:#ff6b6b;--line:#2a3544}
-@media (prefers-color-scheme:light){:root{--bg:#f3f6f9;--panel:#fff;--ink:#14202c;--mute:#5a6b7d;--acc:#0a9d63;--warn:#b86e00;--bad:#c62828;--line:#d6dee7}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,sans-serif;padding:16px;max-width:900px;margin-inline:auto}
-h1{font-size:20px;margin:0 0 4px}h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:0 0 10px}
-.sub{color:var(--mute);margin:0 0 14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-button,select,input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
-button{cursor:pointer}button.pri{background:var(--acc);color:#04170e;border-color:var(--acc);font-weight:600}
+:root{--bg:#0f1419;--panel:#18212b;--ink:#e9eef4;--muted:#93a3b5;--line:#2b3744;--accent:#38d996;--accent-ink:#03160d;--warn:#ffb547;--bad:#ff6b6b;color-scheme:dark}
+@media (prefers-color-scheme: light){:root{--bg:#f3f5f8;--panel:#fff;--ink:#111b25;--muted:#556575;--line:#d4dce5;--accent:#07905a;--accent-ink:#fff;--warn:#9a5a00;--bad:#c62828;color-scheme:light}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;padding:0 max(16px,env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+main,.hud-in{max-width:720px;margin:0 auto}
+h1{font-size:22px;margin:16px 0 4px}
+h2{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h3{font-size:15px;margin:16px 0 6px}
+p{margin:0 0 10px}
+a{color:var(--accent)}
+.sub{color:var(--muted);margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.between{justify-content:space-between}
+button,select,input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-height:44px;touch-action:manipulation}
+input{width:100%}
+button{cursor:pointer;font-weight:600}
+button.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.small{min-height:36px;padding:6px 12px;font-size:14px}
 button:disabled{opacity:.45;cursor:default}
-canvas{width:100%;height:180px;display:block;background:var(--bg);border-radius:8px}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
-th{color:var(--mute);font-weight:500;font-size:13px}tr.lock td{color:var(--acc);font-weight:600}tr.sel{cursor:pointer}
-.big{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}.mute{color:var(--mute)}
-.meter{height:18px;background:var(--bg);border-radius:9px;overflow:hidden;border:1px solid var(--line)}
-.meter>div{height:100%;width:0;background:var(--acc);transition:width .08s}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.grid{grid-template-columns:1fr}}
-label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--mute)}
-.note{font-size:13px;color:var(--mute)}.err{color:var(--bad)}
+label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted);flex:1;min-width:130px}
+.tiny{font-size:13px;color:var(--muted)}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+/* heads-up display */
+.hud{position:sticky;top:0;z-index:5;margin:0 calc(-1 * max(16px,env(safe-area-inset-left)));padding:calc(10px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));background:var(--bg);background:color-mix(in srgb,var(--bg) 92%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.chip{display:inline-block;padding:4px 10px;border-radius:999px;font-size:14px;font-weight:600;border:1px solid var(--line);color:var(--muted)}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+.chip.scan{color:var(--warn);border-color:var(--warn)}
+.hudgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.lbl{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.big{font-size:36px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.meter{position:relative;height:22px;border-radius:11px;background:var(--panel);border:1px solid var(--line);overflow:hidden;cursor:pointer}
+.meter>#bar{height:100%;width:0;background:var(--accent);transition:width .08s linear}
+.meter>#pkv{position:absolute;right:8px;top:1px;font-size:13px;color:var(--ink)}
+.clip{color:var(--bad);font-weight:700}
+.resume{width:100%;margin-top:8px}
+/* lists, tables */
+ul.warn{margin:10px 0 0;padding:10px 12px 10px 28px;border:1px solid var(--warn);border-radius:10px;color:var(--warn);font-size:14px}
+ul.warn li+li{margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:9px 4px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tbody tr{cursor:pointer}
+tr.hit td{color:var(--warn)}
+tr.lock td{color:var(--accent);font-weight:700}
+canvas{display:block;width:100%;height:150px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.result{font-size:28px;font-weight:700;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+ol.steps{padding-left:20px;margin:0 0 12px}
+ol.steps li{margin-bottom:4px}
+ul.marks{list-style:none;padding:0;margin:10px 0}
+ul.marks li{position:relative;padding:10px 44px 10px 0;border-bottom:1px solid var(--line)}
+ul.marks .x{position:absolute;right:0;top:8px;min-height:36px;padding:4px 12px}
+details{border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:600;min-height:32px}
+.sim input[type=range]{padding:0;border:0;background:none;min-height:32px}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+svg.wiring{width:100%;max-width:420px;height:auto;color:var(--ink);margin:6px 0}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
+
+<header class="hud" id="hud">
+  <div class="hud-in">
+    <div class="row between">
+      <span id="chip" class="chip">Stopped</span>
+      <button id="toneBtn" class="small" aria-pressed="false">Tone off</button>
+    </div>
+    <div class="hudgrid">
+      <div><div class="lbl">Signal</div><div class="big" id="sig">—</div></div>
+      <div><div class="lbl">Depth</div><div class="big" id="dep">—</div><div class="tiny" id="depSrc"></div></div>
+    </div>
+    <div class="meter" id="meter" title="Tap to reset the peak marker" role="button" aria-label="Signal meter. Tap to reset the peak marker"><div id="bar"></div><span id="pkv"></span></div>
+    <div class="tiny" style="margin-top:6px"><span id="diag">Tap Start below.</span> <span id="clip" class="clip" hidden>· INPUT CLIPPING</span></div>
+    <button id="resume" class="pri resume" hidden>iOS paused the audio. Tap to resume</button>
+  </div>
+</header>
+
+<main>
 <h1>Sonde Locator</h1>
-<p class="sub">Scan for a push-camera sonde (the transmitter in the camera head), lock its frequency, and estimate how deep it is. Feed a pickup coil or locator audio output into the line-in/mic jack.</p>
+<p class="sub">Find a sewer-camera sonde's frequency and depth with an iPhone. You need a small pickup coil plugged into the phone (see <a href="#hw">What to plug in</a>).</p>
 
-<div class="card">
-  <h2>1 · Input</h2>
+<section class="card">
+  <h2>1 · Start</h2>
   <div class="row">
-    <select id="dev"><option value="">Default input</option></select>
-    <button id="start" class="pri">Start scan</button>
-    <button id="stop" disabled>Stop</button>
-    <button id="sim">Simulate sonde</button>
-    <span id="status" class="mute"></span>
+    <button id="startBtn" class="pri">Start with coil</button>
+    <button id="simBtn">Practice mode</button>
+    <button id="stopBtn" disabled>Stop</button>
   </div>
-  <div id="simbox" class="row" style="margin-top:10px;display:none">
-    <label>Sim frequency (Hz)<select id="simf"><option>512</option><option>640</option><option>850</option><option>16000</option></select></label>
-    <label>Sim depth (ft): <span id="simdv">6.0</span><input id="simd" type="range" min="1" max="20" step="0.1" value="6"></label>
-  </div>
-</div>
-
-<div class="card">
-  <h2>2 · Frequency scan</h2>
-  <canvas id="spec" width="860" height="180"></canvas>
-  <table style="margin-top:10px"><thead><tr><th>Sonde band</th><th>Freq</th><th>SNR</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table>
   <div class="row" style="margin-top:10px">
-    <label>Custom frequency (Hz)<input id="cust" type="number" min="20" step="1" placeholder="e.g. 480"></label>
-    <button id="addc">Add</button>
-    <span class="note">Strongest known band above threshold auto-locks; click a row to lock manually.</span>
+    <label>Audio input<select id="dev"><option value="">Default input</option></select></label>
   </div>
-</div>
+  <div class="tiny" id="devLbl"></div>
+  <ul class="warn" id="warn" hidden></ul>
+  <div id="simBox" class="sim" hidden>
+    <h3>Practice yard</h3>
+    <p class="tiny">This is a simulated sonde buried in a level pipe, so you can practise without hardware.</p>
+    <label>Sonde frequency<select id="simF"></select></label>
+    <label><span>Sonde depth: <b><span id="simDv"></span> <span class="u"></span></b></span><input id="simD" type="range" min="1" max="15" step="0.1" value="6"></label>
+    <label><span>Your position along the pipe: <b><span id="simXv"></span> <span class="u"></span></b></span><input id="simX" type="range" min="-15" max="15" step="0.1" value="0"></label>
+    <label><span>Coil lifted by: <b><span id="simHv"></span> <span class="u"></span></b></span><input id="simH" type="range" min="0" max="3" step="0.1" value="0"></label>
+  </div>
+</section>
 
-<div class="grid">
-<div class="card">
-  <h2>3 · Signal strength</h2>
-  <div class="mute">Locked: <b id="lockf">—</b></div>
-  <div class="big" id="amp">—</div>
-  <div class="meter"><div id="mbar"></div></div>
-  <p class="note">Walk the receiver along the line. The <b>peak</b> (or the null between the two side-peaks of a horizontal coil, depending on your antenna) marks the point directly above the sonde.</p>
-  <div class="row"><button id="peakreset">Reset peak</button><span class="mute">Peak: <b id="peak">—</b></span></div>
-</div>
+<section class="card">
+  <h2>2 · Find the frequency</h2>
+  <p class="tiny">Turn the camera on with the head still near you. The scanner locks onto the strongest sonde frequency it hears. Tap a row to pick one yourself.</p>
+  <canvas id="spec" aria-label="Live spectrum of the coil signal"></canvas>
+  <table style="margin-top:8px">
+    <thead><tr><th>Band</th><th>Freq</th><th>SNR</th><th>Status</th></tr></thead>
+    <tbody id="bands"></tbody>
+  </table>
+  <div id="otherBox" class="row tiny" style="margin-top:10px" hidden>
+    <span>Strongest other tone: <b id="otherHz"></b> <span id="otherSnr"></span></span>
+    <button id="otherLock" class="small">Lock on it</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button id="rescanBtn" class="small">Rescan</button>
+    <label style="flex:2">Other frequency (Hz)<input id="cust" type="number" inputmode="decimal" min="100" max="40000" placeholder="e.g. 480"></label>
+    <button id="addBtn" class="small" style="align-self:flex-end">Add</button>
+  </div>
+</section>
 
-<div class="card">
-  <h2>4 · Depth</h2>
+<section class="card">
+  <h2>3 · Locate &amp; depth</h2>
+  <ol class="steps tiny">
+    <li>Hold the coil level, about a foot off the ground. Sweep across the line. The signal peaks right over the pipe.</li>
+    <li>At the strongest spot, rotate the coil until the signal peaks. That's the direction of the pipe. Keep the coil pointed that way.</li>
+    <li>Walk along the pipe. The biggest peak is directly over the sonde. A weaker "ghost" peak (about ⅕ as strong) can appear beyond each end.</li>
+  </ol>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="live" aria-selected="true">Live</button>
+    <button class="tab" role="tab" data-tab="lift" aria-selected="false">Lift test</button>
+    <button class="tab" role="tab" data-tab="poles" aria-selected="false">Pole to pole</button>
+  </div>
+
+  <div id="tab-live">
+    <p class="tiny">Calibrate once per coil and camera. After that the depth reads live at the top while you stand over the peak.</p>
+    <ol class="steps tiny">
+      <li>Lay the camera head on the ground before pushing it in.</li>
+      <li>Hold the coil level, pointed along the head, at a known height above it.</li>
+      <li>Hold still and tap <b>Calibrate</b>.</li>
+    </ol>
+    <div class="row">
+      <label><span>Coil height above sonde (<span class="u"></span>)</span><input id="calDist" type="number" inputmode="decimal" min="0.3" step="0.1" value="3"></label>
+      <button id="calBtn" class="pri" style="align-self:flex-end">Calibrate</button>
+    </div>
+    <div class="tiny" id="calInfo" style="margin-top:8px"></div>
+    <div class="tiny" id="calMsg" style="color:var(--warn)"></div>
+  </div>
+
+  <div id="tab-lift" hidden>
+    <p class="tiny">No calibration needed. Stand on the peak, take a reading at your normal height, lift the coil straight up, and take another. Lift by at least a third of the expected depth for a good result.</p>
+    <div class="row">
+      <label><span>Lift by (<span class="u"></span>)</span><input id="liftH" type="number" inputmode="decimal" min="0.2" step="0.1" value="1"></label>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button id="cap1" class="pri">1 · Normal height</button>
+      <button id="cap2" class="pri">2 · Lifted</button>
+    </div>
+    <div class="tiny" style="margin-top:8px">Readings: <span id="liftA1">—</span> → <span id="liftA2">—</span></div>
+    <div class="result" id="liftRes">—</div>
+    <div class="tiny" id="liftMsg"></div>
+  </div>
+
+  <div id="tab-poles" hidden>
+    <p class="tiny">With the coil pointed along the pipe, the signal drops to a sharp null at two "poles", one before and one after the sonde. Mark both with your foot, tape the distance between them, and enter it here.</p>
+    <label><span>Distance pole to pole (<span class="u"></span>)</span><input id="poleL" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 8.5"></label>
+    <div class="result" id="poleRes">—</div>
+    <div class="tiny">Depth ≈ 0.71 × pole-to-pole distance (assumes a level sonde).</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>4 · Mark &amp; share</h2>
+  <p class="tiny">Saves this spot's GPS position (typically within 5–10 m), frequency and latest depth. Marks stay on this phone until you share or delete them.</p>
   <div class="row">
-    <label>Units<select id="units"><option value="ft">feet</option><option value="m">metres</option></select></label>
-    <label>Raise height <input id="h" type="number" value="1" min="0.1" step="0.1" style="width:90px"></label>
+    <label style="flex:3">Note<input id="markNote" type="text" placeholder="e.g. 42 ft on reel, belly"></label>
+    <button id="markBtn" class="pri" style="align-self:flex-end">Mark spot</button>
   </div>
-  <p class="note" style="margin:8px 0">Stand directly above the peak. Capture a ground reading, lift the receiver by the raise height, capture again. The signal falls with distance cubed, so the ratio gives depth — no calibration needed.</p>
-  <div class="row"><button id="cap1">Capture ground</button><button id="cap2">Capture raised</button><button id="clr">Clear</button></div>
-  <div class="mute" style="margin-top:8px">Ground <b id="a1">—</b> · Raised <b id="a2">—</b></div>
-  <div class="big" id="depth">—</div>
-  <div class="note" id="depthn"></div>
-</div>
-</div>
+  <div class="tiny" id="markMsg"></div>
+  <ul class="marks" id="marks"></ul>
+  <div class="row">
+    <button id="shareBtn" class="small">Share / export CSV</button>
+    <button id="clearBtn" class="small">Delete all</button>
+  </div>
+</section>
 
-<div class="card note">
-  Estimates assume a horizontal, level sonde and a receiver held directly over it. Pipe lean, nearby metal/utilities, and signal distortion all skew depth — confirm with a calibrated locator before digging or marking utilities. Call 811 before you dig.
-</div>
+<section class="card">
+  <h2>Settings</h2>
+  <div class="row">
+    <label>Units<select id="units"><option value="ft">feet &amp; inches</option><option value="m">metres</option></select></label>
+    <label>Response (sensitivity)<select id="resp"><option value="fast">Fast</option><option value="normal">Normal</option><option value="deep">Deep (slow)</option></select></label>
+    <label>Power line<select id="mains"><option value="60">60 Hz (US)</option><option value="50">50 Hz</option></select></label>
+  </div>
+</section>
+
+<section class="card" id="hw">
+  <h2>What to plug in</h2>
+  <p>A sonde gives off a magnetic field, not sound, so the iPhone can't detect it on its own. The microphone can't hear it. Safari can't read the phone's compass sensor, and that sensor is far too slow and insensitive anyway: about 100 readings a second against a 512 Hz signal, and roughly a thousand times too weak. A <b>pickup coil</b> turns the field into a small voltage, the iPhone's audio input digitises it, and this page does the rest.</p>
+  <details open>
+    <summary>1 · The coil</summary>
+    <ul>
+      <li><b>Quick start:</b> a suction-cup telephone pickup coil, the kind sold for recording phone calls, with a 3.5 mm plug. It's small, so its range is short.</li>
+      <li><b>Better range:</b> wind your own on a 10 mm × 200 mm ferrite rod (an AM-radio antenna rod). Use 2,000–3,000 turns of 36–38 AWG enamelled magnet wire; a drill on slow speed makes this quick. Twist the two leads together.</li>
+      <li>Mount the coil on a stick, a foot or more away from the phone. Phones are magnetically noisy.</li>
+    </ul>
+  </details>
+  <details>
+    <summary>2 · Getting it into the iPhone</summary>
+    <ul>
+      <li><b>Easiest:</b> a USB audio interface with a guitar (instrument) input. It plugs straight into an iPhone 15 or newer. Older iPhones need Apple's Lightning to USB 3 Camera Adapter. Plug the coil into the instrument input and turn the gain up.</li>
+      <li><b>Cheapest:</b> Apple's USB-C (or Lightning) to 3.5 mm adapter and a 4-pole (TRRS) plug wired as shown. The resistor makes iOS see a microphone. The capacitor keeps the microphone bias voltage out of the coil.</li>
+    </ul>
+    <svg class="wiring" viewBox="0 0 400 150" role="img" aria-label="Wiring: plug sleeve (mic) through a 10 microfarad capacitor to one coil lead; plug ring 2 (ground) to the other coil lead; 2.2 kilohm resistor from sleeve to ground.">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M120 40H190M200 40H320M120 112H320"/>
+        <path d="M190 26V54M200 26V54"/>
+        <path d="M150 40V60M150 92V112"/><rect x="142" y="60" width="16" height="32"/>
+        <path d="M320 40V52M320 100V112"/>
+        <path d="M320 52a8 8 0 0 1 0 16a8 8 0 0 1 0 16a8 8 0 0 1 0 16"/>
+      </g>
+      <g fill="currentColor"><circle cx="150" cy="40" r="3.5"/><circle cx="150" cy="112" r="3.5"/></g>
+      <g fill="currentColor" font-size="12" font-family="system-ui,sans-serif">
+        <text x="4" y="44">Sleeve (mic)</text><text x="4" y="116">Ring 2 (ground)</text>
+        <text x="176" y="20">10 µF</text><text x="180" y="68">+</text>
+        <text x="164" y="80">2.2 kΩ</text>
+        <text x="334" y="80">coil</text>
+        <text x="4" y="142" fill="currentColor" opacity=".7">Tip &amp; ring 1 (left/right audio): leave unconnected, or wire earbuds to hear the tone</text>
+      </g>
+    </svg>
+  </details>
+  <details>
+    <summary>3 · Tips &amp; troubleshooting</summary>
+    <ul>
+      <li>The page must be opened over <b>https</b>. iPhone blocks the audio input on plain http pages.</li>
+      <li>In Safari, tap Share → <b>Add to Home Screen</b> to open it like an app. The screen stays awake while it runs.</li>
+      <li>Check the input name under Start. If it says "iPhone Microphone", the adapter wasn't picked up. Unplug it, plug it back in, and tap Start again.</li>
+      <li>Strong 60 Hz hum near a house means the coil is working. Hum fading outdoors, away from wiring, is normal.</li>
+      <li>"Input clipping" means the signal is too strong. Turn the interface gain down or move the coil away from power cables.</li>
+      <li>Recalibrate if you change the coil, adapter, interface gain or camera.</li>
+      <li>Rough expectation, not field-tested: a few feet with a telephone pickup, more with a wound ferrite coil and an interface with adjustable gain. A dedicated locator will still reach deeper.</li>
+    </ul>
+  </details>
+</section>
+
+<p class="note">Depth readings assume a level sonde and a coil held directly over it. A tilted sonde, nearby metal, other utilities and nearby power cables all skew the result. Confirm before digging, and call 811 before you dig.</p>
+</main>
 
 <script src="sonde-locator.js"></script>
 <script src="sonde-locator-ui.js"></script>
